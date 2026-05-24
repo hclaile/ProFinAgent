@@ -1,0 +1,131 @@
+[
+  {
+    "tool_type": "Market Data",
+    "description": "Fetches raw market price data including OHLCV (Open, High, Low, Close, Volume) for equities across different markets (US, China A-share, etc.).",
+    "tools": [
+      "fmp_historical_data",
+      "crawler_yfinance",
+      "crawler_stock_data_fetcher",
+      "fmp_market_calendar"
+    ]
+  },
+  {
+    "tool_type": "Company Financial Data",
+    "description": "Fetches core company fundamentals and financial statements, including company profiles, income statements, balance sheets, and cash flow statements.",
+    "tools": [
+      "fmp_company_profile",
+      "fmp_income_statement",
+      "fmp_balance_sheet",
+      "fmp_cash_flow"
+    ]
+  },
+  {
+    "tool_type": "Financial Analytics & Valuation Data",
+    "description": "Fetches derived financial analytics, ratios, valuation metrics, risk metrics, analyst estimates, price targets, ownership activity, and ESG data for company analysis.",
+    "tools": [
+      "fmp_profitability_ratios",
+      "fmp_liquidity_ratios",
+      "fmp_solvency_ratios",
+      "fmp_valuation_ratios",
+      "fmp_altman_z_score",
+      "fmp_piotroski_score",
+      "fmp_wacc",
+      "fmp_value_at_risk",
+      "fmp_analyst_estimates",
+      "fmp_price_target",
+      "fmp_key_metrics",
+      "fmp_enterprise_value",
+      "fmp_insider_trading",
+      "fmp_esg_data"
+    ]
+  },
+  {
+    "tool_type": "Macroeconomic Data",
+    "description": "Fetches macroeconomic indicators and economic data such as GDP, inflation, unemployment, treasury yields, and other economic time series from sources like FRED.",
+    "tools": [
+      "fmp_treasury_data",
+      "crawler_fred_search"
+    ]
+  },
+  {
+    "tool_type": "Media Data",
+    "description": "Fetches news articles, social media posts, and discussions from various sources including financial news APIs, Reddit, and other social platforms for sentiment analysis and market sentiment tracking.",
+    "tools": [
+      "fmp_news",
+      "fmp_earnings_transcript"
+    ]
+  },
+  {
+    "tool_type": "Regulatory Filings Data",
+    "description": "Fetches regulatory filings and official documents from regulatory bodies such as SEC filings (10-K, 10-Q, etc.) for US-listed companies, including automatic conversion to structured formats.",
+    "tools": [
+      "crawler_sec_filings",
+      "fmp_form_13f"
+    ]
+  },
+  {
+    "tool_type": "Data processing",
+    "description": "Handles local data processing and file format conversion tasks. Includes generic tabular-to-Qlib conversion (import_data) and PDF-to-structured-JSON parsing (mineru_pdf_to_json) for downstream quant workflows. Not used for fetching raw market/macro/news data or training models.",
+    "tools": [
+      "convert_to_qlib",
+      "mineru_pdf_to_json"
+    ]
+  },
+  {
+    "tool_type": "Indicator Calculation",
+    "description": "Calculate the technical indicators of stock market data, evaluate factor performance/backtest metrics, and analyze text sentiment. Generates technical indicators, factor metrics (trend/momentum/volatility/candlestick, IC/IR, win rate), backtest performance metrics (returns, Sharpe, drawdown), and text-based sentiment scores. Not intended for training tasks, raw data acquisition, or custom ML feature engineering beyond the provided indicator, backtest & sentiment library.",
+    "tools": [
+      "talib_technical_indicators",
+      "sentiment_analysis_bert",
+      "calculate_ic"
+    ]
+  },
+  {
+    "tool_type": "Model Training",
+    "description": "Trains and manages quant models and benchmark experiments (XGBoost/LightGBM/GRU/LSTM/Transformer/AlphaSAGE, etc.). Not for ad-hoc indicator calculation or raw data crawling; requires prepared datasets and YAML/config-driven workflows.",
+    "tools": [
+      "train_qcm",
+      "train_AFF",
+      "train_gfn_AlphaSAGE",
+      "train_GP_AlphaSAGE",
+      "train_PPO_AlphaSAGE",
+      "train_task_status",
+      "train_task_logs",
+      "train_task_list",
+      "qlib_benchmark_runner"
+    ]
+  },
+  {
+    "tool_type": "Time Series Forecasting",
+    "description": "Direct inference on time series using pre-trained models (LSTM/Transformer/Autoformer/Informer). No training or data acquisition; needs prepared time-series inputs with time/value columns.",
+    "tools": [
+      "time_series_forecast"
+    ]
+  },
+  {
+    "tool_type": "Search",
+    "description": "Executes web search and knowledge-graph queries (Google/SerpAPI, Tavily, Wikipedia), and also lists available Qlib benchmark models for internal model selection. Not a general web crawler; unsuitable for structured financial datasets or restricted/private sources.",
+    "tools": [
+      "crawler_google_search",
+      "crawler_wiki_search",
+      "tavily_search",
+      "qlib_benchmark_list_models"
+    ]
+  },
+  {
+    "tool_type": "Alternative Markets Data",
+    "description": "Fetches data from alternative markets including cryptocurrencies, forex (foreign exchange), and commodities. Provides market prices, rates, and trading data for non-equity financial instruments.",
+    "tools": [
+      "fmp_crypto_data",
+      "fmp_forex_data",
+      "fmp_commodity_data"
+    ]
+  },
+  {
+    "tool_type": "Report Generation",
+    "description": "Generates professional PDF reports by combining LLM analysis with data visualizations. Reads CSV/JSON data files, generates financial charts using mplfinance, combines LLM JSON analysis with chart images using Jinja2 templates, and renders final PDF reports using WeasyPrint.",
+    "tools": [
+      "report_generate"
+    ]
+  }
+]

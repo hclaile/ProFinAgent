@@ -1,0 +1,1 @@
+/data0/huangcheng/.local/lib/python3.12/site-packages/qlib/cli/run.py /data0/huangcheng/Qlib_Mcp/workspace/qlib_benchmark/benchmarks/XGBoost/workflow_config_xgboost_Alpha158.yaml --experiment_name string

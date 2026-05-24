@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "default_env": "default",
+  "env_from": {
+    "env_var": "RULES_ENV",
+    "allowed": ["default", "benchmark", "online"]
+  },
+  "strategies": {
+    "default": {
+      "per_type_quota": 1,
+      "min_total_tools": 1,
+      "max_total_tools": 16,
+      "must_have_rules": [
+        {
+          "patterns": ["\\brank\\s*ic\\b", "\\binformation\\s+coefficient\\b", "\\bic\\s*mean\\b", "\\bic\\b", "\\bir\\b"],
+          "tools": ["calculate_ic"]
+        },
+        {
+          "patterns": ["ts[_\\s-]*mean", "ts[_\\s-]*std", "\\$close\\b", "\\$open\\b", "\\$high\\b", "\\$low\\b", "\\$volume\\b", "\\bfactor\\b", "\\balpha\\b"],
+          "tools": ["calculate_ic"]
+        },
+        {
+          "patterns": ["\\bohlcv\\b", "\\bopen\\b.*\\bhigh\\b.*\\blow\\b.*\\bclose\\b", "\\bclosing\\s+price(s)?\\b", "\\bprice\\s+movements?\\b", "\\bhistorical\\s+price(s)?\\b", "\\bcandlestick\\b"],
+          "tools": ["crawler_yfinance", "fmp_historical_data"]
+        },
+        {
+          "patterns": ["\\ba-?share\\b", "\\bA股\\b", "\\b沪深\\b", "\\b上证\\b", "\\b深证\\b", "\\b沪深300\\b", "\\bcsi\\s*300\\b", "\\b(?:sh|sz)?\\d{6}\\b"],
+          "tools": ["crawler_stock_data_fetcher"]
+        },
+        {
+          "patterns": ["\\brsi\\b", "\\bmacd\\b", "\\batr\\b", "\\bbollinger\\b", "\\bbb(and|ands)?\\b", "\\bbbands\\b", "\\bsma\\b", "\\bema\\b", "\\bma\\b", "\\bdivergence\\b", "\\boverbought\\b", "\\boversold\\b", "\\bvolatility\\b", "\\bvix\\b"],
+          "tools": ["talib_technical_indicators"]
+        },
+        {
+          "patterns": ["\\bbacktest\\b", "\\bsharpe\\b", "\\bmax\\s*drawdown\\b", "\\bdrawdown\\b", "\\bannualized\\s+return\\b", "\\bbenchmark\\s+performance\\b", "\\bstrategy\\b"],
+          "tools": ["backtest"]
+        },
+        {
+          "patterns": ["\\bincome\\s+statement\\b", "\\brevenue\\b", "\\bcogs\\b", "\\bgross\\s+profit\\b", "\\boperating\\s+income\\b", "\\bnet\\s+income\\b", "\\beps\\b", "\\br&d\\b", "\\bresearch\\s+and\\s+development\\b"],
+          "tools": ["fmp_income_statement"]
+        },
+        {
+          "patterns": ["\\bbalance\\s+sheet\\b", "\\btotal\\s+assets\\b", "\\btotal\\s+liabilities\\b", "\\bshareholder'?s?\\s+equity\\b", "\\bretained\\s+earnings\\b", "\\bdebt\\b"],
+          "tools": ["fmp_balance_sheet"]
+        },
+        {
+          "patterns": ["\\bcash\\s+flow\\b", "\\boperating\\s+cash\\b", "\\bnet\\s+cash\\b", "\\bfree\\s+cash\\s+flow\\b", "\\bfcf\\b", "\\bcapex\\b", "\\bcapital\\s+expenditures\\b"],
+          "tools": ["fmp_cash_flow"]
+        },
+        {
+          "patterns": ["\\bliquidity\\b", "\\bcurrent\\s+ratio\\b", "\\bquick\\s+ratio\\b"],
+          "tools": ["fmp_liquidity_ratios"]
+        },
+        {
+          "patterns": ["\\bprofitability\\b", "\\bprofit\\s+margin\\b", "\\bgross\\s+margin\\b", "\\bnet\\s+margin\\b", "\\broe\\b", "\\broa\\b"],
+          "tools": ["fmp_profitability_ratios"]
+        },
+        {
+          "patterns": ["\\bsolvency\\b", "\\bdebt[-\\s]*to[-\\s]*equity\\b", "\\binterest\\s+coverage\\b"],
+          "tools": ["fmp_solvency_ratios"]
+        },
+        {
+          "patterns": ["\\bvaluation\\b", "\\bp/e\\b", "\\bps\\b", "\\bev/ebitda\\b"],
+          "tools": ["fmp_valuation_ratios", "fmp_key_metrics", "fmp_company_profile"]
+        },
+        {
+          "patterns": ["\\bsec\\b", "\\bedgar\\b", "\\b10[-\\s]*k\\b", "\\b10[-\\s]*q\\b", "\\b8[-\\s]*k\\b", "\\bfilings?\\b", "\\bmd&a\\b", "\\bmanagement'?s\\s+discussion\\b"],
+          "tools": ["crawler_sec_filings"]
+        },
+        {
+          "patterns": ["\\b13f\\b", "\\bform\\s+13f\\b", "\\binstitutional\\s+holdings?\\b"],
+          "tools": ["fmp_form_13f"]
+        },
+        {
+          "patterns": ["\\bgdp\\b", "\\bcpi\\b", "\\binflation\\b", "\\bunemployment\\b", "\\bfed\\b", "\\bfomc\\b", "\\binterest\\s+rate\\b"],
+          "tools": ["crawler_fred_search"]
+        },
+        {
+          "patterns": ["\\bfomc\\b", "\\bminutes\\b", "\\bmeeting\\s+minutes\\b", "\\b会议纪要\\b"],
+          "tools": ["crawler_google_search"]
+        },
+        {
+          "patterns": ["\\bearnings\\b.*\\bdate(s)?\\b", "\\bearnings\\s+release\\b", "\\bupcoming\\s+earnings\\b", "\\bearnings\\s+calendar\\b"],
+          "tools": ["fmp_market_calendar"]
+        },
+        {
+          "patterns": ["\\bearnings\\s+call\\b", "\\btranscript\\b"],
+          "tools": ["fmp_earnings_transcript"]
+        },
+        {
+          "patterns": ["\\bnews\\b", "\\bheadline(s)?\\b", "\\blawsuit\\b", "\\bcontrovers(y|ies)\\b", "\\bregulatory\\b", "\\bmonitor\\b"],
+          "tools": ["crawler_google_search"]
+        },
+        {
+          "patterns": ["\\bsentiment\\b", "\\b情绪\\b", "\\b舆情\\b", "\\b情感\\b", "\\bbullish\\b", "\\bbearish\\b"],
+          "tools": ["sentiment_analysis_bert"]
+        },
+        {
+          "patterns": ["\\besg\\b", "\\bsustainability\\b", "\\bgovernance\\b", "\\bnet\\s*zero\\b", "\\bcarbon\\b", "\\benvironmental\\b"],
+          "tools": ["fmp_esg_data", "crawler_google_search", "report_generate"]
+        },
+        {
+          "patterns": ["^\\s*who\\s+is\\b", "^\\s*what\\s+is\\b", "\\bcurrent\\s+(ceo|cfo|cto|coo)\\b", "\\breplaced\\b", "\\bwho\\s+replaced\\b"],
+          "tools": ["crawler_google_search", "tavily_search", "crawler_wiki_search"]
+        },
+        {
+          "patterns": ["\\breport\\b", "\\bdue\\s+diligence\\b", "\\binvestment\\s+strategy\\b", "\\brisk\\s+assessment\\b", "\\bequity\\s+research\\b", "\\bannual\\s+report\\b", "\\bcomprehensive\\b"],
+          "tools": ["report_generate"]
+        }
+      ]
+    },
+    "benchmark": {
+      "inherits": "default"
+    },
+    "online": {
+      "inherits": "default"
+    }
+  }
+}
+
+

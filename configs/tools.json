@@ -1,0 +1,3063 @@
+[
+  {
+    "name": "fmp_company_profile",
+    "description": "Fetch company profile information from Financial Modeling Prep (FMP) by company name or symbol.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company_name": {
+          "type": "string",
+          "description": "Company name or ticker to search (uses FMP search-name then profile)."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 5,
+          "description": "Max candidates to consider when resolving symbol via search-name."
+        },
+        "root": {
+          "type": "string",
+          "description": "Root directory (optional, reserved for future use)."
+        }
+      },
+      "required": [
+        "company_name",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Company profile result: query, resolved_symbol, and profile list from FMP."
+    },
+    "example": {
+      "company_name": "Apple",
+      "output_path": "./data/apple_profile.json",
+      "limit": 5
+    }
+  },
+  {
+    "name": "fmp_income_statement",
+    "description": "Get income statement from Financial Modeling Prep (FMP) stable API (income-statement).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or built-in default key."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 40,
+          "description": "Max records to return."
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "annual",
+            "quarter",
+            "yearly",
+            "quarterly"
+          ],
+          "description": "Period type. Examples: annual/quarter. Aliases accepted: yearly/quarterly. If omitted, uses FMP API default."
+        },
+        "root": {
+          "type": "string",
+          "description": "Root directory (optional, reserved for future use)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Income statement result with symbol, statement_type, and data."
+    },
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_income.json",
+      "period": "annual",
+      "limit": 20
+    }
+  },
+  {
+    "name": "fmp_balance_sheet",
+    "description": "Get balance sheet from Financial Modeling Prep (FMP) stable API (balance-sheet-statement).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or built-in default key."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 40,
+          "description": "Max records to return."
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "annual",
+            "quarter",
+            "yearly",
+            "quarterly"
+          ],
+          "description": "Period type. Examples: annual/quarter. Aliases accepted: yearly/quarterly. If omitted, uses FMP API default."
+        },
+        "root": {
+          "type": "string",
+          "description": "Root directory (optional, reserved for future use)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Balance sheet result with symbol, statement_type, and data."
+    },
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_balance.json",
+      "period": "quarter",
+      "limit": 12
+    }
+  },
+  {
+    "name": "fmp_cash_flow",
+    "description": "Get cash flow statement from Financial Modeling Prep (FMP) stable API (cash-flow-statement).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or built-in default key."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 40,
+          "description": "Max records to return."
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "annual",
+            "quarter",
+            "yearly",
+            "quarterly"
+          ],
+          "description": "Period type. Examples: annual/quarter. Aliases accepted: yearly/quarterly. If omitted, uses FMP API default."
+        },
+        "root": {
+          "type": "string",
+          "description": "Root directory (optional, reserved for future use)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Cash flow statement result with symbol, statement_type, and data."
+    },
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_cashflow.json",
+      "period": "annual",
+      "limit": 20
+    }
+  },
+  {
+    "name": "fmp_historical_data",
+    "description": "Get historical OHLCV data via FinancialModelingPrep using FinanceToolkit Toolkit.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s). Supports 'AAPL' or 'AAPL,MSFT' or 'AAPL MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers (alternative to symbol)."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 500,
+          "description": "Optional max rows to keep when serializing."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL,MSFT",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31",
+      "output_path": "./data/aapl_msft_ohlcv.json"
+    }
+  },
+  {
+    "name": "fmp_treasury_data",
+    "description": "Get US Treasury yield data via FinanceToolkit Toolkit (treasury endpoint). Useful for risk-free rate (Rf) or WACC calculations.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 500,
+          "description": "Optional max rows to keep when serializing."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31",
+      "output_path": "./data/treasury_2023.json"
+    }
+  },
+  {
+    "name": "fmp_profitability_ratios",
+    "description": "Collect profitability ratios via FinanceToolkit (gross margin, net margin, ROE/ROA, etc.).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 200,
+          "description": "Optional max rows to keep when serializing."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_profitability_ratios.json"
+    }
+  },
+  {
+    "name": "fmp_liquidity_ratios",
+    "description": "Collect liquidity ratios via FinanceToolkit (current ratio, quick ratio, etc.).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 200,
+          "description": "Optional max rows to keep when serializing."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_liquidity_ratios.json"
+    }
+  },
+  {
+    "name": "fmp_solvency_ratios",
+    "description": "Collect solvency ratios via FinanceToolkit (debt-to-equity, interest coverage, etc.).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 200,
+          "description": "Optional max rows to keep when serializing."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_solvency_ratios.json"
+    }
+  },
+  {
+    "name": "fmp_valuation_ratios",
+    "description": "Collect valuation ratios via FinanceToolkit (PE/PS, EV/EBITDA, etc.)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 200,
+          "description": "Optional max rows to keep when serializing."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_valuation_ratios.json"
+    }
+  },
+  {
+    "name": "fmp_altman_z_score",
+    "description": "Compute Altman Z-Score via FinanceToolkit models (bankruptcy risk proxy).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_altman_z.json"
+    }
+  },
+  {
+    "name": "fmp_piotroski_score",
+    "description": "Compute Piotroski F-Score via FinanceToolkit models (9-signal fundamental score).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_piotroski.json"
+    }
+  },
+  {
+    "name": "fmp_wacc",
+    "description": "Compute WACC (Weighted Average Cost of Capital) via FinanceToolkit models.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_wacc.json"
+    }
+  },
+  {
+    "name": "fmp_value_at_risk",
+    "description": "Compute Value-at-Risk (VaR) via FinanceToolkit risk module using historical price volatility.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol(s): 'AAPL' or 'AAPL,MSFT'."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "confidence_level": {
+          "type": "number",
+          "default": 0.95,
+          "description": "Confidence level for VaR, e.g., 0.95 or 0.99."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Output json path."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "confidence_level": 0.95,
+      "output_path": "./data/aapl_var.json"
+    }
+  },
+  {
+    "name": "fmp_news",
+    "description": "Get financial market news for stock symbols from FMP API. Supports single or multiple symbols. Returns news articles with title, text, date, source, etc. Supports date range filtering.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Single ticker symbol, e.g., AAPL."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of tickers (alternative to symbol)."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 50,
+          "description": "Maximum number of news articles to return."
+        },
+        "from_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional start date YYYY-MM-DD to filter news by date range."
+        },
+        "to_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional end date YYYY-MM-DD to filter news by date range."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "symbol"
+          ]
+        },
+        {
+          "required": [
+            "symbols"
+          ]
+        }
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "limit": 50,
+      "from_date": "2024-01-01",
+      "to_date": "2024-12-31",
+      "output_path": "./data/aapl_news.json"
+    }
+  },
+  {
+    "name": "fmp_crypto_data",
+    "description": "Get cryptocurrency market data from FMP API. Returns crypto prices, market cap, volume, etc. Can fetch specific crypto by symbol or list all available cryptos.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Optional cryptocurrency symbol (e.g., BTCUSD, ETHUSD). If omitted, returns list of all available cryptos."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 100,
+          "description": "Maximum number of records when listing all cryptos."
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional start date YYYY-MM-DD for historical price data (requires symbol)."
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional end date YYYY-MM-DD for historical price data (requires symbol)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "BTCUSD",
+      "start_date": "2024-01-01",
+      "end_date": "2024-12-31",
+      "output_path": "./data/btc_data.json"
+    }
+  },
+  {
+    "name": "fmp_forex_data",
+    "description": "Get forex (foreign exchange) market data from FMP API. Returns currency pair prices, rates, etc. Can fetch specific pair by symbol or list all available pairs. Supports historical price data with date range.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Optional forex pair symbol (e.g., EURUSD, GBPUSD). If omitted, returns list of all available pairs."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 100,
+          "description": "Maximum number of records when listing all pairs."
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional start date YYYY-MM-DD for historical price data (requires symbol)."
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional end date YYYY-MM-DD for historical price data (requires symbol)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "EURUSD",
+      "start_date": "2024-01-01",
+      "end_date": "2024-12-31",
+      "output_path": "./data/eurusd_data.json"
+    }
+  },
+  {
+    "name": "fmp_analyst_estimates",
+    "description": "Get analyst estimates (EPS, revenue, etc.) for a stock symbol from FMP API. Returns quarterly and annual estimates from analysts.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "annual",
+            "quarter"
+          ],
+          "description": "Period type: annual or quarter."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 40,
+          "description": "Max records to return."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "period": "quarter",
+      "limit": 20,
+      "output_path": "./data/aapl_analyst_estimates.json"
+    }
+  },
+  {
+    "name": "fmp_price_target",
+    "description": "Get analyst price target summary for a stock symbol from FMP API. Returns average, high, low price targets and number of analysts.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_price_target.json"
+    }
+  },
+  {
+    "name": "fmp_earnings_transcript",
+    "description": "Get earnings call transcripts for a stock symbol from FMP API. Returns full transcript text from earnings conference calls.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "quarter": {
+          "type": "integer",
+          "description": "Optional quarter number (1-4) to filter transcripts."
+        },
+        "year": {
+          "type": "integer",
+          "description": "Optional year to filter transcripts."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "quarter": 4,
+      "year": 2023,
+      "output_path": "./data/aapl_transcript.json"
+    }
+  },
+  {
+    "name": "fmp_market_calendar",
+    "description": "Get market calendar (earnings dates, economic events, etc.) from FMP API. Returns scheduled market events for specified date range.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "from_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional start date YYYY-MM-DD."
+        },
+        "to_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional end date YYYY-MM-DD."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "from_date": "2024-01-01",
+      "to_date": "2024-12-31",
+      "output_path": "./data/market_calendar.json"
+    }
+  },
+  {
+    "name": "fmp_form_13f",
+    "description": "Get Form 13F filings data from FMP API. Form 13F shows institutional holdings. Can filter by CIK or date range. Supports single date or date range filtering.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "cik": {
+          "type": "string",
+          "description": "Optional CIK (Central Index Key) to filter by specific institution."
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional single date YYYY-MM-DD to filter filings (mutually exclusive with from_date/to_date)."
+        },
+        "from_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional start date YYYY-MM-DD for date range filtering (mutually exclusive with date)."
+        },
+        "to_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional end date YYYY-MM-DD for date range filtering (mutually exclusive with date)."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 100,
+          "description": "Maximum number of records to return."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "cik": "0001067983",
+      "from_date": "2024-01-01",
+      "to_date": "2024-12-31",
+      "output_path": "./data/form_13f.json"
+    }
+  },
+  {
+    "name": "fmp_key_metrics",
+    "description": "Get key financial metrics (TTM - Trailing Twelve Months) for a stock symbol from FMP API. Returns important ratios and metrics like PE, PB, EV/EBITDA, etc.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "annual",
+            "quarter"
+          ],
+          "description": "Period type: annual or quarter."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 40,
+          "description": "Max records to return."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "period": "annual",
+      "limit": 20,
+      "output_path": "./data/aapl_key_metrics.json"
+    }
+  },
+  {
+    "name": "fmp_enterprise_value",
+    "description": "Get enterprise value data for a stock symbol from FMP API. Returns enterprise value, market cap, debt, cash, etc.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "period": {
+          "type": "string",
+          "enum": [
+            "annual",
+            "quarter"
+          ],
+          "description": "Period type: annual or quarter."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 40,
+          "description": "Max records to return."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "period": "quarter",
+      "limit": 12,
+      "output_path": "./data/aapl_enterprise_value.json"
+    }
+  },
+  {
+    "name": "fmp_commodity_data",
+    "description": "Get commodity market data from FMP API. Returns prices for commodities like gold, oil, etc. Can fetch specific commodity by symbol or list all available. Supports historical price data with date range.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Optional commodity symbol. If omitted, returns list of all available commodities."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 100,
+          "description": "Maximum number of records when listing all commodities."
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional start date YYYY-MM-DD for historical price data (requires symbol)."
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional end date YYYY-MM-DD for historical price data (requires symbol)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "WTIUSD",
+      "start_date": "2024-01-01",
+      "end_date": "2024-12-31",
+      "output_path": "./data/wti_data.json"
+    }
+  },
+  {
+    "name": "fmp_insider_trading",
+    "description": "Get insider trading data for a stock symbol from FMP API. Returns transactions by company insiders (officers, directors, etc.). Supports date range filtering.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "limit": {
+          "type": "integer",
+          "default": 100,
+          "description": "Maximum number of transactions to return."
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional start date YYYY-MM-DD to filter transactions by date range."
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Optional end date YYYY-MM-DD to filter transactions by date range."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "limit": 50,
+      "start_date": "2024-01-01",
+      "end_date": "2024-12-31",
+      "output_path": "./data/aapl_insider_trading.json"
+    }
+  },
+  {
+    "name": "fmp_esg_data",
+    "description": "Get ESG (Environmental, Social, Governance) score data for a stock symbol from FMP API. Returns ESG ratings and scores.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "Ticker symbol, e.g., AAPL"
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Optional FMP API key. If omitted, uses env FMP_API_KEY or the built-in default key."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "output_path"
+      ]
+    },
+    "outputSchema": null,
+    "example": {
+      "symbol": "AAPL",
+      "output_path": "./data/aapl_esg.json"
+    }
+  },
+  {
+    "name": "crawler_yfinance",
+    "description": "yfinance equity data downloader. Fetch global equities (US/HK, etc.) historical prices such as open/close/volume.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "company": {
+          "type": "string",
+          "description": "Ticker, e.g., AAPL, GOOGL, MSFT."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Start date, format YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "End date, format YYYY-MM-DD."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (csv/json). No default."
+        }
+      },
+      "required": [
+        "company",
+        "start_date",
+        "end_date",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Downloaded equity data saved as JSON."
+    },
+    "example": {
+      "root": "./data",
+      "company": "GOOGL",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  },
+  {
+    "name": "crawler_stock_data_fetcher",
+    "description": "A-share equity data fetcher (akShare). Supports fetching China A-share historical prices by ticker or company name.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "identifier": {
+          "type": "string",
+          "description": "Ticker (e.g., 600000/SH600000) or company name."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Start date, format YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "End date, format YYYY-MM-DD."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (csv/json)."
+        }
+      },
+      "required": [
+        "identifier",
+        "start_date",
+        "end_date",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "China A-share historical data."
+    },
+    "example": {
+      "root": "./data",
+      "identifier": "600000",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  },
+  {
+    "name": "crawler_fred_search",
+    "description": "FRED economic data search. Query macro indicators in the Federal Reserve FRED database (GDP, inflation, unemployment, etc.).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "query": {
+          "type": "string",
+          "description": "Keyword or FRED series ID (e.g., GDP, UNRATE)."
+        },
+        "search_type": {
+          "type": "string",
+          "enum": [
+            "search",
+            "search_note",
+            "search_code",
+            "get_series_data"
+          ],
+          "default": "search",
+          "description": "Search type: search, search_note (metadata), get_series_data (time series)."
+        },
+        "start_year": {
+          "type": "integer",
+          "description": "Start year (for get_series_data)."
+        },
+        "end_year": {
+          "type": "integer",
+          "description": "End year (for get_series_data)."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (csv/json)."
+        }
+      },
+      "required": [
+        "query",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "FRED search result or time-series data."
+    },
+    "example": {
+      "root": "./data",
+      "query": "GDP",
+      "search_type": "get_series_data",
+      "start_year": 2020,
+      "end_year": 2023
+    }
+  },
+  {
+    "name": "crawler_finnhub_news",
+    "description": "Finnhub equity news fetcher. Get news for a given ticker (title, summary, time, source).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "Ticker, e.g., AAPL, TSLA."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Start date, format YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "End date, format YYYY-MM-DD."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (csv/json)."
+        }
+      },
+      "required": [
+        "symbol",
+        "start_date",
+        "end_date",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Equity news data."
+    },
+    "example": {
+      "root": "./data",
+      "symbol": "AAPL",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  },
+  {
+    "name": "crawler_reddit_extractor",
+    "description": "Reddit posts & comments extractor. Pull posts and top comments by keyword.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "keyword": {
+          "type": "string",
+          "description": "Search keyword."
+        },
+        "start_time": {
+          "type": "string",
+          "description": "Start time, format YYYY-MM-DD."
+        },
+        "end_time": {
+          "type": "string",
+          "description": "End time, format YYYY-MM-DD."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 100,
+          "description": "Max number of posts."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "keyword",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Reddit posts and comments data."
+    },
+    "example": {
+      "root": "./data",
+      "keyword": "bitcoin",
+      "start_time": "2023-01-01",
+      "end_time": "2023-12-31",
+      "limit": 100
+    }
+  },
+  {
+    "name": "crawler_reddit_news_scraper",
+    "description": "Reddit news scraper. Search related company news and discussions across subreddits, then crawl linked content.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "company": {
+          "type": "string",
+          "description": "Company name."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Start date, format YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "End date, format YYYY-MM-DD."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "company",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Reddit news data and crawled page content."
+    },
+    "example": {
+      "root": "./data",
+      "company": "Apple",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31"
+    }
+  },
+  {
+    "name": "crawler_sec_filings",
+    "description": "SEC filing downloader and XBRL-to-JSON converter. Automatically fetches 10-K/10-Q (and related) filings for US-listed companies, then converts the downloaded primary HTM/iXBRL into JSON. The output_path is the folder path where files will be saved (e.g., ./data/Result/SEC/search/Apple).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "company_name": {
+          "type": "string",
+          "description": "Company name, e.g., Apple, Microsoft."
+        },
+        "start_date": {
+          "type": "string",
+          "description": "Start date, format YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "description": "End date, format YYYY-MM-DD."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Folder path to save downloaded files (e.g., ./data/Result/SEC/search/Apple). Files will be organized as {output_path}/{form}/{filing_date}_{accession}.htm and .json."
+        }
+      },
+      "required": [
+        "company_name",
+        "start_date",
+        "end_date",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Downloaded SEC filing files saved in the specified folder path."
+    },
+    "example": {
+      "company_name": "Apple",
+      "start_date": "2023-01-01",
+      "end_date": "2023-12-31",
+      "output_path": "./data/Result/SEC/search/Apple"
+    }
+  },
+  {
+    "name": "crawler_finhun_scraper",
+    "description": "Finhun web content scraper. Batch crawl a list of URLs and extract structured info such as title and body.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "List of URLs."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "result",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Scraped web content."
+    },
+    "example": {
+      "root": "./data",
+      "result": [
+        {
+          "url": "https://example.com/article1"
+        },
+        {
+          "url": "https://example.com/article2"
+        }
+      ],
+      "output_path": "output.json"
+    }
+  },
+  {
+    "name": "convert_to_qlib",
+    "description": "Convert stock market data that is not in qlib format to qlib format.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "description": "Input data file path (CSV/JSON/TXT). TXT auto-detects separators (tab/comma/space) and converts to CSV."
+        },
+        "output": {
+          "type": "string",
+          "description": "Output Parquet path (optional). If omitted, auto-generates to ./data/Data/{original_name}_qlib.parquet."
+        },
+        "datetime_col": {
+          "type": "string",
+          "default": "date",
+          "description": "Datetime column name (e.g., date/datetime/time)."
+        },
+        "instrument_col": {
+          "type": "string",
+          "default": "symbol",
+          "description": "Instrument column name (e.g., symbol/code/instrument)."
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume"
+          ],
+          "description": "Columns to keep (e.g., OHLCV)."
+        },
+        "tz": {
+          "type": "string",
+          "description": "Timezone (optional), e.g., Asia/Shanghai, UTC."
+        }
+      },
+      "required": [
+        "input"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Imported Parquet path, file size, and data stats."
+    },
+    "example": {
+      "input": "./stock_data.csv",
+      "output": "./data/Data/stock_data_qlib.parquet",
+      "datetime_col": "date",
+      "instrument_col": "symbol",
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "tz": "Asia/Shanghai"
+    }
+  },
+  {
+    "name": "mineru_pdf_to_json",
+    "description": "Use MinerU API to parse PDF into structured JSON for downstream text mining and extraction.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "pdf_path": {
+          "type": "string",
+          "description": "Local PDF path."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Output JSON path (defaults to same name with .json)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "MinerU API Key; falls back to env MINERU_API_KEY if omitted."
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "MinerU PDF-to-JSON endpoint, default https://mineru.net/api/pdf2json."
+        }
+      },
+      "required": [
+        "pdf_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Converted JSON path and metadata."
+    },
+    "example": {
+      "pdf_path": "./docs/report.pdf",
+      "output_path": "./docs/report.json",
+      "api_key": "YOUR_MINERU_KEY",
+      "endpoint": "https://mineru.net/api/pdf2json"
+    }
+  },
+  {
+    "name": "talib_technical_indicators",
+    "description": "TA-Lib technical indicator calculator. Based on TA-Lib with 150+ indicators: trend (MA/EMA/MACD), momentum (RSI/MOM/ROC), volatility (ATR/BBANDS), candlestick patterns (60+ CDL), etc.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "input_path": {
+          "type": "string",
+          "description": "Input data path (CSV/JSON/Parquet) containing OHLC columns (volume optional)."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Output path (optional). Defaults to input folder with _indicators suffix. Supports CSV/JSON/Parquet."
+        },
+        "indicators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of indicators to compute. If omitted or null, compute all 151 supported ones (e.g., SMA, EMA, MACD, RSI, BBANDS, ATR, ADX, STOCH, AROON, CCI, MOM, ROC, SAR...)."
+        },
+        "config": {
+          "type": "object",
+          "description": "Custom indicator params (optional), e.g., periods, thresholds."
+        },
+        "validate": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to generate validation JSON with stats, new columns, and preview."
+        }
+      },
+      "required": [
+        "input_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Data file with added indicators plus optional validation JSON."
+    },
+    "example": {
+      "input_path": "./data/stock_data.csv",
+      "output_path": "./data/stock_data_indicators.csv",
+      "indicators": [
+        "SMA",
+        "EMA",
+        "MACD",
+        "RSI",
+        "BBANDS",
+        "ATR"
+      ],
+      "validate": true
+    }
+  },
+  {
+    "name": "sentiment_analysis_bert",
+    "description": "Local BERT/FinBERT sentiment analysis (default local finbert-tone). Outputs positive/negative/neutral with confidence.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "input_path": {
+          "type": "string",
+          "description": "Input file path (CSV/JSON/TXT). CSV/JSON must contain a text column; TXT is one text per line."
+        },
+        "input_token": {
+          "type": "string",
+          "description": "Single text input (use when not providing input_path)."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Output path (optional). Defaults to input folder with _sentiment suffix. Supports CSV/JSON."
+        },
+        "text_column": {
+          "type": "string",
+          "description": "Text column name (optional, auto-detect). Common: text/content/news/title/description."
+        },
+        "model_name": {
+          "type": "string",
+          "enum": [
+            "finbert-tone",
+            "finbert",
+            "bert-base",
+            "roberta",
+            "distilbert"
+          ],
+          "default": "finbert-tone",
+          "description": "Model name; default local finbert-tone."
+        },
+        "model_path": {
+          "type": "string",
+          "description": "Local model directory, default ./data/sentiment/models/finbert-tone."
+        },
+        "batch_size": {
+          "type": "integer",
+          "default": 16,
+          "description": "Batch size (tune by GPU/CPU). Suggested CPU=4, GPU=16-32."
+        },
+        "device": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "cpu",
+            "cuda"
+          ],
+          "default": "auto",
+          "description": "Device: auto (detect GPU), cpu, cuda (force GPU)."
+        },
+        "output_format": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "csv",
+            "json"
+          ],
+          "default": "auto",
+          "description": "Output format. auto: infer by file extension."
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "input_path"
+          ]
+        },
+        {
+          "required": [
+            "input_token"
+          ]
+        }
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "input_path": {
+          "type": "string",
+          "description": "Input path."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Output path."
+        },
+        "total_texts": {
+          "type": "integer",
+          "description": "Total texts processed."
+        },
+        "sentiment_distribution": {
+          "type": "object",
+          "description": "Sentiment distribution (positive/negative/neutral)."
+        },
+        "average_confidence": {
+          "type": "number",
+          "description": "Average confidence."
+        },
+        "model_name": {
+          "type": "string",
+          "description": "Model name used."
+        }
+      }
+    },
+    "example": {
+      "input_path": "./news_data.csv",
+      "output_path": "./news_sentiment.json",
+      "text_column": "content",
+      "model_name": "finbert-tone",
+      "model_path": "./data/sentiment/models/finbert-tone",
+      "batch_size": 16,
+      "device": "auto",
+      "output_format": "json"
+    }
+  },
+  {
+    "name": "backtest",
+    "description": "Backtest tool. Evaluate strategy or model predictions on historical data; computes return, Sharpe, max drawdown, etc.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "provider_uri": {
+          "type": "string",
+          "description": "Qlib data path."
+        },
+        "pred_path": {
+          "type": "string",
+          "description": "Prediction file path."
+        },
+        "start_time": {
+          "type": "string",
+          "description": "Backtest start time."
+        },
+        "end_time": {
+          "type": "string",
+          "description": "Backtest end time."
+        }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Backtest results with return, Sharpe, and other metrics."
+    },
+    "example": {
+      "provider_uri": ".qlib/qlib_data/cn_data",
+      "pred_path": "./predictions/pred.csv",
+      "start_time": "2020-01-01",
+      "end_time": "2023-12-31"
+    }
+  },
+  {
+    "name": "calculate_ic",
+    "description": "Compute IC (Information Coefficient) metrics for factors. Returns IC mean/std, IR, Rank IC mean/std, Rank IR, IC win rate, etc., to assess predictive power and stability.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "formula": {
+          "type": "string",
+          "description": "Qlib factor expression, e.g., 'Ts_Mean($close, 10) / Ts_Mean($close, 30) - 1'. Supports time-series ops (Ts_Mean/Ts_Std) and cross-sectional ops."
+        },
+        "instruments": {
+          "type": "string",
+          "enum": [
+            "csi300",
+            "csi500",
+            "csi800",
+            "csi1000",
+            "csiall",
+            "all"
+          ],
+          "default": "csi300",
+          "description": "Universe: csi300/csi500/csi800/csi1000/csiall/all."
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "default": "2020-01-01",
+          "description": "Start date YYYY-MM-DD."
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "default": "2023-12-31",
+          "description": "End date YYYY-MM-DD."
+        },
+        "label_expr": {
+          "type": "string",
+          "default": "Ref($close, -2)/Ref($close, -1) - 1",
+          "description": "Label expression for future return; default T+1 to T+2 return."
+        },
+        "provider_uri": {
+          "type": "string",
+          "default": ".qlib/qlib_data/cn_data",
+          "description": "Qlib data path; auto-detects qlib_bin under project if not set."
+        }
+      },
+      "required": [
+        "formula"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Whether calculation succeeded."
+        },
+        "metrics": {
+          "type": "object",
+          "description": "IC metric results.",
+          "properties": {
+            "ic_mean": {
+              "type": "number",
+              "description": "IC mean – Pearson corr mean between factor and future return."
+            },
+            "ic_std": {
+              "type": "number",
+              "description": "IC std – dispersion of IC series."
+            },
+            "ir": {
+              "type": "number",
+              "description": "Information Ratio (IR) = IC mean / IC std."
+            },
+            "rank_ic_mean": {
+              "type": "number",
+              "description": "Rank IC mean – Spearman rank IC mean (robust to outliers)."
+            },
+            "rank_ic_std": {
+              "type": "number",
+              "description": "Rank IC std – std of rank IC series."
+            },
+            "rank_ir": {
+              "type": "number",
+              "description": "Rank IR = Rank IC mean / Rank IC std."
+            },
+            "ic_win_rate": {
+              "type": "number",
+              "description": "IC win rate – fraction of days with IC>0 (directional consistency)."
+            }
+          }
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        },
+        "details": {
+          "type": "object",
+          "description": "Details such as parsed expression, stock count, record count, etc."
+        }
+      }
+    },
+    "example": {
+      "input": {
+        "formula": "Ts_Mean($close, 10) / Ts_Mean($close, 30) - 1",
+        "instruments": "csi300",
+        "start_date": "2020-01-01",
+        "end_date": "2023-12-31",
+        "label_expr": "Ref($close, -2)/Ref($close, -1) - 1"
+      },
+      "output": {
+        "success": true,
+        "metrics": {
+          "ic_mean": 0.025,
+          "ic_std": 0.08,
+          "ir": 0.3125,
+          "rank_ic_mean": 0.028,
+          "rank_ic_std": 0.075,
+          "rank_ir": 0.373,
+          "ic_win_rate": 0.55
+        },
+        "message": "Calculation successful",
+        "details": {
+          "formula": "Ts_Mean($close, 10) / Ts_Mean($close, 30) - 1",
+          "instruments": "csi300",
+          "stock_count": 300,
+          "sample_count": 728,
+          "data_records": 218400
+        }
+      }
+    }
+  },
+  {
+    "name": "train_qcm",
+    "description": "AlphaQCM training tool. Quantile-based distributional RL for Alpha mining. Supports QRDQN, IQN, FQF architectures; learns and optimizes Alpha factors via RL. Runs asynchronously with task/log queries.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string",
+          "enum": [
+            "qrdqn",
+            "iqn",
+            "fqf"
+          ],
+          "default": "qrdqn",
+          "description": "Model type. qrdqn: Quantile Regression DQN; iqn: Implicit Quantile Networks; fqf: Fully Quantile Function."
+        },
+        "seed": {
+          "type": "integer",
+          "default": 0,
+          "minimum": 0,
+          "description": "Random seed for reproducibility."
+        },
+        "pool": {
+          "type": "integer",
+          "default": 20,
+          "minimum": 1,
+          "description": "Alpha pool capacity (number of factors maintained). Suggested: 10/20/50/100."
+        },
+        "std_lam": {
+          "type": "number",
+          "default": 1.0,
+          "exclusiveMinimum": 0,
+          "description": "Std lambda parameter controlling distribution shape. Suggested: 0.5/1.0/2.0."
+        },
+        "task_name": {
+          "type": "string",
+          "default": "training",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Task name for identifying the training job."
+        }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        }
+      },
+      "description": "Training launch info. Runs asynchronously; task/logs can be queried."
+    },
+    "example": {
+      "model": "qrdqn",
+      "seed": 42,
+      "pool": 20,
+      "std_lam": 1.0,
+      "task_name": "qrdqn_training_2024"
+    }
+  },
+  {
+    "name": "train_AFF",
+    "description": "AlphaForge training tool. GAN-based Alpha factor generation; learns market distributions to generate predictive factors. Runs asynchronously with task/log queries.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "config_file": {
+          "type": "string",
+          "description": "Config file path (optional). If provided, overrides with file params; else use config_params."
+        },
+        "config_params": {
+          "type": "object",
+          "description": "Optional training parameter dict: instruments, train_end_year, seeds, save_name, zoo_size, etc.",
+          "properties": {
+            "instruments": {
+              "type": "string",
+              "description": "Universe, e.g., csi300/csi500."
+            },
+            "train_end_year": {
+              "type": "integer",
+              "description": "Training end year."
+            },
+            "seeds": {
+              "type": "string",
+              "description": "Seed list as string, e.g., \"[0,1,2]\"."
+            },
+            "save_name": {
+              "type": "string",
+              "description": "Model save name."
+            },
+            "zoo_size": {
+              "type": "integer",
+              "description": "Alpha pool size."
+            }
+          }
+        },
+        "task_name": {
+          "type": "string",
+          "default": "training",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Task name for the training job."
+        }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        }
+      },
+      "description": "Training launch info. Runs asynchronously; task/logs can be queried."
+    },
+    "example": {
+      "config_params": {
+        "instruments": "csi300",
+        "train_end_year": 2020,
+        "seeds": "[0,1,2]",
+        "save_name": "test",
+        "zoo_size": 100
+      },
+      "task_name": "csi300_training"
+    }
+  },
+  {
+    "name": "train_gfn_AlphaSAGE",
+    "description": "AlphaSAGE training tool. GFlowNet-based Alpha factor generation with deep RL; learns complex distributions for diverse, high-quality factors. Supports encoder types (Transformer/LSTM/GNN) with flexible configs. Runs asynchronously with task/log queries.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "config_file": {
+          "type": "string",
+          "description": "Config file path (optional). If provided, use its params; else use config_params."
+        },
+        "config_params": {
+          "type": "object",
+          "description": "Optional training parameter dict.",
+          "properties": {
+            "seed": {
+              "type": "integer",
+              "default": 0,
+              "description": "Random seed for reproducibility."
+            },
+            "instrument": {
+              "type": "string",
+              "default": "csi300",
+              "description": "Universe, e.g., csi300/csi500."
+            },
+            "pool_capacity": {
+              "type": "integer",
+              "default": 50,
+              "description": "Alpha pool capacity (factor count)."
+            },
+            "log_freq": {
+              "type": "integer",
+              "default": 500,
+              "description": "Logging frequency (every N episodes)."
+            },
+            "update_freq": {
+              "type": "integer",
+              "default": 64,
+              "description": "Model update frequency."
+            },
+            "n_episodes": {
+              "type": "integer",
+              "default": 10000,
+              "description": "Number of episodes."
+            },
+            "encoder_type": {
+              "type": "string",
+              "enum": [
+                "transformer",
+                "lstm",
+                "gnn"
+              ],
+              "default": "gnn",
+              "description": "Encoder type: transformer/lstm/gnn."
+            },
+            "entropy_coef": {
+              "type": "number",
+              "default": 0.01,
+              "description": "Entropy regularization coefficient (exploration)."
+            },
+            "entropy_temperature": {
+              "type": "number",
+              "default": 1.0,
+              "description": "Entropy temperature."
+            },
+            "mask_dropout_prob": {
+              "type": "number",
+              "default": 1.0,
+              "description": "Mask dropout probability."
+            },
+            "ssl_weight": {
+              "type": "number",
+              "default": 1.0,
+              "description": "Self-supervised loss weight."
+            },
+            "nov_weight": {
+              "type": "number",
+              "default": 0.3,
+              "description": "Novelty reward weight (diversity)."
+            },
+            "weight_decay_type": {
+              "type": "string",
+              "enum": [
+                "linear",
+                "exponential",
+                "polynomial"
+              ],
+              "default": "linear",
+              "description": "Weight decay type."
+            },
+            "final_weight_ratio": {
+              "type": "number",
+              "default": 0.0,
+              "description": "Final weight ratio."
+            }
+          }
+        },
+        "task_name": {
+          "type": "string",
+          "default": "training",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Task name for the training job."
+        }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        }
+      },
+      "description": "Training launch info. Runs asynchronously; task/logs can be queried."
+    },
+    "example": {
+      "config_params": {
+        "seed": 0,
+        "instrument": "csi300",
+        "pool_capacity": 50,
+        "log_freq": 500,
+        "update_freq": 64,
+        "n_episodes": 10000,
+        "encoder_type": "gnn",
+        "entropy_coef": 0.01,
+        "entropy_temperature": 1.0,
+        "mask_dropout_prob": 1.0,
+        "ssl_weight": 1.0,
+        "nov_weight": 0.3,
+        "weight_decay_type": "linear",
+        "final_weight_ratio": 0.0
+      },
+      "task_name": "csi300_training"
+    }
+  },
+  {
+    "name": "train_GP_AlphaSAGE",
+    "description": "Genetic Programming-based Alpha factor mining. Evolves factor expressions via evolutionary algorithms to generate predictive factors. Runs asynchronously with task/log queries.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "config_file": {
+          "type": "string",
+          "description": "Config file path (optional). If provided, use its params; else use config_params."
+        },
+        "config_params": {
+          "type": "object",
+          "description": "Optional training parameter dict.",
+          "properties": {
+            "instruments": {
+              "type": "string",
+              "default": "csi300",
+              "description": "Universe, e.g., csi300/csi500."
+            },
+            "seed": {
+              "type": "integer",
+              "default": 0,
+              "description": "Random seed for reproducibility."
+            },
+            "train_end_year": {
+              "type": "integer",
+              "description": "Training end year."
+            },
+            "freq": {
+              "type": "string",
+              "default": "day",
+              "description": "Data frequency, e.g., day/week."
+            },
+            "cuda": {
+              "type": "string",
+              "default": "0",
+              "description": "CUDA device id (\"0\"/\"1\") or \"cpu\"."
+            }
+          }
+        },
+        "task_name": {
+          "type": "string",
+          "default": "training",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Task name for the training job."
+        }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        }
+      },
+      "description": "Training launch info. Runs asynchronously; task/logs can be queried."
+    },
+    "example": {
+      "config_params": {
+        "instruments": "csi300",
+        "seed": 0,
+        "train_end_year": 2020,
+        "freq": "day",
+        "cuda": "0"
+      },
+      "task_name": "csi300_training"
+    }
+  },
+  {
+    "name": "train_PPO_AlphaSAGE",
+    "description": "PPO-based Alpha factor generation. Uses RL (Proximal Policy Optimization) to generate/optimize factors with stable updates. Runs asynchronously with task/log queries.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "config_file": {
+          "type": "string",
+          "description": "Config file path (optional). If provided, use its params; else use config_params."
+        },
+        "config_params": {
+          "type": "object",
+          "description": "Optional training parameter dict.",
+          "properties": {
+            "seed": {
+              "type": "integer",
+              "default": 0,
+              "description": "Random seed for reproducibility."
+            },
+            "instruments": {
+              "type": "string",
+              "default": "csi300",
+              "description": "Universe, e.g., csi300/csi500."
+            },
+            "pool": {
+              "type": "integer",
+              "default": 20,
+              "description": "Alpha pool capacity (factor count)."
+            },
+            "steps": {
+              "type": "integer",
+              "default": 200000,
+              "description": "Training steps/iterations."
+            }
+          }
+        },
+        "task_name": {
+          "type": "string",
+          "default": "training",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Task name for the training job."
+        }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        }
+      },
+      "description": "Training launch info. Runs asynchronously; task/logs can be queried."
+    },
+    "example": {
+      "config_params": {
+        "seed": 0,
+        "instruments": "csi300",
+        "pool": 20,
+        "steps": 200000
+      },
+      "task_name": "ppo_training_csi300"
+    }
+  },
+  {
+    "name": "train_task_status",
+    "description": "Query status for an inline training task started by train_qcm, train_AFF, train_gfn_AlphaSAGE, train_GP_AlphaSAGE, or train_PPO_AlphaSAGE.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "tool": {
+          "type": "string",
+          "enum": [
+            "train_qcm",
+            "train_AFF",
+            "train_gfn_AlphaSAGE",
+            "train_GP_AlphaSAGE",
+            "train_PPO_AlphaSAGE"
+          ],
+          "description": "Training tool that owns the task."
+        },
+        "task_id": {
+          "type": "string",
+          "description": "Task ID returned by the training launch tool."
+        },
+        "log_tail": {
+          "type": "integer",
+          "default": 20,
+          "description": "Number of recent log lines to include."
+        }
+      },
+      "required": [
+        "tool",
+        "task_id"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Task status, pid, timestamps, error, and recent logs."
+    },
+    "example": {
+      "tool": "train_gfn_AlphaSAGE",
+      "task_id": "task-id-from-launch",
+      "log_tail": 20
+    }
+  },
+  {
+    "name": "train_task_logs",
+    "description": "Query logs for an inline training task started by a training launch tool.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "tool": {
+          "type": "string",
+          "enum": [
+            "train_qcm",
+            "train_AFF",
+            "train_gfn_AlphaSAGE",
+            "train_GP_AlphaSAGE",
+            "train_PPO_AlphaSAGE"
+          ],
+          "description": "Training tool that owns the task."
+        },
+        "task_id": {
+          "type": "string",
+          "description": "Task ID returned by the training launch tool."
+        },
+        "lines": {
+          "type": "integer",
+          "default": 100,
+          "description": "Number of log lines to return."
+        },
+        "offset": {
+          "type": "integer",
+          "default": 0,
+          "description": "Offset from the end of the log."
+        }
+      },
+      "required": [
+        "tool",
+        "task_id"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Selected task logs and line counts."
+    },
+    "example": {
+      "tool": "train_gfn_AlphaSAGE",
+      "task_id": "task-id-from-launch",
+      "lines": 100
+    }
+  },
+  {
+    "name": "train_task_list",
+    "description": "List inline training tasks across all training tools, or filter by tool/status.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "tool": {
+          "type": "string",
+          "enum": [
+            "train_qcm",
+            "train_AFF",
+            "train_gfn_AlphaSAGE",
+            "train_GP_AlphaSAGE",
+            "train_PPO_AlphaSAGE"
+          ],
+          "description": "Optional training tool filter."
+        },
+        "status": {
+          "type": "string",
+          "description": "Optional status filter, e.g. started/running/completed/failed."
+        },
+        "limit": {
+          "type": "integer",
+          "default": 50,
+          "description": "Maximum number of tasks to return."
+        }
+      }
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Task list with tool, task_id, status, pid, timestamps, and log counts."
+    },
+    "example": {
+      "tool": "train_gfn_AlphaSAGE",
+      "status": "running",
+      "limit": 20
+    }
+  },
+  {
+    "name": "qlib_benchmark_runner",
+    "description": "Qlib Benchmark runner. Execute standard Qlib benchmark models via YAML configs (XGBoost/LightGBM/GRU/LSTM/Transformer, etc.). Scans benchmarks directory, supports updating provider_uri, and runs via qrun. Asynchronous with task/log queries.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "yaml_path": {
+          "type": "string",
+          "description": "YAML config path (required). Points to Qlib benchmark YAML, e.g., workflow_config_xgboost_Alpha158.yaml."
+        },
+        "provider_uri": {
+          "type": "string",
+          "default": ".qlib/qlib_data/cn_data",
+          "description": "provider_uri path (optional). If provided, updates YAML before run, e.g., \"~/.qlib/qlib_data/cn_data\"."
+        },
+        "experiment_name": {
+          "type": "string",
+          "description": "Experiment name (optional) to distinguish runs."
+        },
+        "task_name": {
+          "type": "string",
+          "default": "qlib_training",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Task name for the training job."
+        }
+      },
+      "required": [
+        "yaml_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        }
+      },
+      "description": "Training launch info. Runs asynchronously; task/logs can be queried."
+    },
+    "example": {
+      "yaml_path": "./data/workspace/qlib_benchmark/benchmarks/XGBoost/workflow_config_xgboost_Alpha158.yaml",
+      "provider_uri": ".qlib/qlib_data/cn_data",
+      "experiment_name": "xgboost_alpha158_experiment",
+      "task_name": "xgboost_training"
+    }
+  },
+  {
+    "name": "time_series_forecast",
+    "description": "Time-series forecasting tool (Hugging Face pre-trained models).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "input_path": {
+          "type": "string",
+          "description": "Input data path (CSV/Parquet/JSON) with time column and value column."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Forecast output path (optional); defaults to _forecast.csv beside input."
+        },
+        "datetime_column": {
+          "type": "string",
+          "default": "date",
+          "description": "Time column name, e.g., date/datetime/timestamp."
+        },
+        "value_column": {
+          "type": "string",
+          "default": "close",
+          "description": "Value column name, e.g., close/value/target."
+        },
+        "instrument_column": {
+          "type": "string",
+          "description": "Optional instrument column (when data has multiple tickers/contracts)."
+        },
+        "instrument": {
+          "type": "string",
+          "description": "Optional specific instrument to filter and model."
+        },
+        "frequency": {
+          "type": "string",
+          "description": "Frequency (e.g., D/W/M/1H). Auto-infer if not given; defaults to D on failure."
+        },
+        "model_name": {
+          "type": "string",
+          "enum": [
+            "lstm-time-series",
+            "lstm-stock",
+            "time-series-transformer",
+            "autoformer",
+            "informer"
+          ],
+          "default": "time-series-transformer",
+          "description": "HF pre-trained model name: lstm-time-series (Keras LSTM), lstm-stock (stock LSTM), time-series-transformer, autoformer (long series), informer (efficient long series)."
+        },
+        "lookback_window": {
+          "type": "integer",
+          "default": 60,
+          "description": "Lookback window length used for prediction."
+        },
+        "forecast_steps": {
+          "type": "integer",
+          "default": 10,
+          "description": "Number of steps to forecast ahead."
+        },
+        "device": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "cpu",
+            "cuda"
+          ],
+          "default": "auto",
+          "description": "Device: auto detect GPU, cpu, or cuda to force GPU."
+        }
+      },
+      "required": [
+        "input_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "input_path": {
+          "type": "string"
+        },
+        "output_path": {
+          "type": "string"
+        },
+        "model_name": {
+          "type": "string"
+        },
+        "model_source": {
+          "type": "string"
+        },
+        "forecast_steps": {
+          "type": "integer"
+        },
+        "lookback_window": {
+          "type": "integer"
+        },
+        "forecast_mean": {
+          "type": "number"
+        },
+        "forecast_std": {
+          "type": "number"
+        },
+        "recent_mean": {
+          "type": "number"
+        },
+        "forecast_range": {
+          "type": "string"
+        },
+        "frequency": {
+          "type": "string"
+        },
+        "device": {
+          "type": "string"
+        },
+        "available_models": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Returns forecast file path and forecast statistics (no training needed)."
+    },
+    "example": {
+      "input_path": "./data/close_price.csv",
+      "output_path": "./data/close_price_forecast.csv",
+      "datetime_column": "date",
+      "value_column": "close",
+      "model_name": "time-series-transformer",
+      "lookback_window": 60,
+      "forecast_steps": 20,
+      "device": "auto"
+    }
+  },
+  {
+    "name": "crawler_google_search",
+    "description": "Use this for normal/free-form queries and questions; returns structured results (snippets, links, etc.).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "question": {
+          "type": "string",
+          "description": "Search query."
+        },
+        "search_date": {
+          "type": "string",
+          "description": "Search date filter YYYY-MM-DD."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "question",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Google search results."
+    },
+    "example": {
+      "root": "./data",
+      "question": "quantitative trading strategies",
+      "search_date": "2023-12-01"
+    }
+  },
+  {
+    "name": "crawler_wiki_search",
+    "description": "The entered query must be an exact name, not a query that requires a search engine to look up.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data."
+        },
+        "search_query": {
+          "type": "string",
+          "description": "Search keyword."
+        },
+        "num_results": {
+          "type": "integer",
+          "default": 3,
+          "description": "Number of results."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        }
+      },
+      "required": [
+        "search_query",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Wikipedia search results."
+    },
+    "example": {
+      "root": "./data",
+      "search_query": "quantitative finance",
+      "num_results": 3
+    }
+  },
+  {
+    "name": "tavily_search",
+    "description": "Tavily search results with answer and cleaned text snippets. Returns structured answers and cleaned text snippets optimized.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Search query or question."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. Exact file path to save output (json)."
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Tavily API key (optional, uses default if not provided)."
+        },
+        "search_depth": {
+          "type": "string",
+          "enum": [
+            "basic",
+            "advanced"
+          ],
+          "default": "advanced",
+          "description": "Search depth: basic (faster) or advanced (more comprehensive)."
+        },
+        "include_answer": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to include a direct answer generated by Tavily."
+        },
+        "max_results": {
+          "type": "integer",
+          "default": 5,
+          "description": "Maximum number of results to return."
+        },
+        "include_domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of domains to include in search."
+        },
+        "exclude_domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional list of domains to exclude from search."
+        },
+        "include_raw_content": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to include raw content in results."
+        },
+        "root": {
+          "type": "string",
+          "description": "Root directory for saving data (optional)."
+        }
+      },
+      "required": [
+        "query",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Tavily search results with answer and cleaned text snippets."
+    },
+    "example": {
+      "query": "What are the latest earnings results for NVIDIA?",
+      "output_path": "./data/nvidia_search.json",
+      "search_depth": "advanced",
+      "include_answer": true,
+      "max_results": 5
+    }
+  },
+  {
+    "name": "qlib_benchmark_list_models",
+    "description": "List all available Qlib benchmark models. Scans benchmarks directory and returns model types (XGBoost/LightGBM/GRU/LSTM, etc.) with YAML paths for selection.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "description": "No input parameters required."
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status."
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message."
+        }
+      },
+      "description": "Returns available benchmark model list (printed to console)."
+    },
+    "example": {}
+  },
+  {
+    "name": "report_generate",
+    "description": "Generate professional PDF reports by combining LLM analysis with data visualizations.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "llm_json": {
+          "type": "object",
+          "description": "Required. LLM output JSON report data (dict). Should contain fields like: title, symbol, analysis/content/text, summary (dict), chart_titles (dict mapping chart index to title), sections (list of dicts with title and content)."
+        },
+        "output_path": {
+          "type": "string",
+          "description": "Required. PDF output file path. If relative, will be based on report_dir. Automatically appends .pdf extension if missing."
+        },
+        "data_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional. List of data file paths (CSV/JSON) for generating charts. Files should contain OHLCV (Open, High, Low, Close, Volume) data with date column."
+        },
+        "chart_config": {
+          "type": "object",
+          "description": "Optional. Chart configuration dictionary. Supports: type (candle/line/ohlc/renko/pnf), style (yahoo/binance/charles/etc.), volume (boolean), figsize (tuple), savefig (dict with dpi, bbox_inches, facecolor)."
+        },
+        "template_path": {
+          "type": "string",
+          "description": "Optional. Custom HTML template file path. If not provided, uses default English template."
+        },
+        "report_dir": {
+          "type": "string",
+          "description": "Optional. Report output directory (default: ./data/Result/report). Charts will be saved in {report_dir}/charts/ subdirectory."
+        }
+      },
+      "required": [
+        "llm_json",
+        "output_path"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Execution status"
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message"
+        },
+        "pdf_path": {
+          "type": "string",
+          "description": "Generated PDF file path"
+        }
+      },
+      "description": "Report generation result with PDF file path"
+    },
+    "example": {
+      "llm_json": {
+        "title": "AAPL Stock Analysis Report",
+        "symbol": "AAPL",
+        "analysis": "<p>This is the LLM-generated analysis content...</p>",
+        "summary": {
+          "Current Price": "$150.00",
+          "Change": "+2.5%",
+          "Market Cap": "$2.5T"
+        },
+        "chart_titles": {
+          "0": "AAPL Candlestick Chart",
+          "1": "Technical Indicators"
+        }
+      },
+      "output_path": "financial_report.pdf",
+      "data_files": [
+        "./data/aapl_ohlcv.csv",
+        "./data/aapl_indicators.json"
+      ],
+      "chart_config": {
+        "type": "candle",
+        "style": "yahoo",
+        "volume": true
+      }
+    }
+  }
+]

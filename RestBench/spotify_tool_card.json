@@ -1,0 +1,493 @@
+[
+  {
+    "tool_description": "Get Spotify catalog information for a single album.",
+    "tool": "GET /albums/{id}",
+    "input_parameters": {
+      "id": "Path parameter, required. The Spotify ID of the album.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code."
+    },
+    "output_parameters": {
+      "id": "The Spotify ID for the album.",
+      "name": "The name of the album.",
+      "album_type": "The type of the album.",
+      "artists": "The artists of the album.",
+      "tracks": "The tracks of the album.",
+      "images": "The cover art for the album."
+    }
+  },
+  {
+    "tool_description": "Get Spotify catalog information about an album's tracks.",
+    "tool": "GET /albums/{id}/tracks",
+    "input_parameters": {
+      "id": "Path parameter, required. The Spotify ID of the album.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first item to return."
+    },
+    "output_parameters": {
+      "items": "An array of simplified track objects.",
+      "limit": "The maximum number of items in the response.",
+      "offset": "The offset of the items returned.",
+      "total": "The total number of items available to return."
+    }
+  },
+  {
+    "tool_description": "Get Spotify catalog information for a single artist identified by their unique Spotify ID.",
+    "tool": "GET /artists/{id}",
+    "input_parameters": {
+      "id": "Path parameter, required. The Spotify ID of the artist."
+    },
+    "output_parameters": {
+      "id": "The Spotify ID for the artist.",
+      "name": "The name of the artist.",
+      "genres": "A list of the genres the artist is associated with.",
+      "followers": "Information about the followers of the artist.",
+      "popularity": "The popularity of the artist.",
+      "images": "Images of the artist in various sizes."
+    }
+  },
+  {
+    "tool_description": "Get Spotify catalog information about an artist's albums.",
+    "tool": "GET /artists/{id}/albums",
+    "input_parameters": {
+      "id": "Path parameter, required. The Spotify ID of the artist.",
+      "include_groups": "Query parameter, optional. A comma-separated list of keywords to filter the response.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first item to return."
+    },
+    "output_parameters": {
+      "items": "An array of simplified album objects.",
+      "limit": "The maximum number of items in the response.",
+      "offset": "The offset of the items returned.",
+      "total": "The total number of items available to return."
+    }
+  },
+  {
+    "tool_description": "Get Spotify catalog information about artists similar to a given artist.",
+    "tool": "GET /artists/{id}/related-artists",
+    "input_parameters": {
+      "id": "Path parameter, required. The Spotify ID of the artist."
+    },
+    "output_parameters": {
+      "artists": "A set of artist objects similar to the requested artist."
+    }
+  },
+  {
+    "tool_description": "Get Spotify catalog information about an artist's top tracks by country.",
+    "tool": "GET /artists/{id}/top-tracks",
+    "input_parameters": {
+      "id": "Path parameter, required. The Spotify ID of the artist.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code."
+    },
+    "output_parameters": {
+      "tracks": "A set of track objects representing the artist's top tracks."
+    }
+  },
+  {
+    "tool_description": "Get a list of new album releases featured in Spotify.",
+    "tool": "GET /browse/new-releases",
+    "input_parameters": {
+      "country": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first item to return."
+    },
+    "output_parameters": {
+      "albums": "A paged set of simplified album objects."
+    }
+  },
+  {
+    "tool_description": "Get detailed profile information about the current user.",
+    "tool": "GET /me",
+    "input_parameters": {},
+    "output_parameters": {
+      "id": "The Spotify user ID for the user.",
+      "display_name": "The name displayed on the user's profile.",
+      "email": "The user's email address.",
+      "country": "The country of the user.",
+      "product": "The user's Spotify subscription level.",
+      "followers": "Information about the followers of the user."
+    }
+  },
+  {
+    "tool_description": "Remove one or more albums from the current user's 'Your Music' library.",
+    "tool": "DELETE /me/albums",
+    "input_parameters": {
+      "ids": "Query or Request Body parameter, required. A comma-separated list or JSON array of the Spotify IDs for the albums."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get a list of the albums saved in the current Spotify user's 'Your Music' library.",
+    "tool": "GET /me/albums",
+    "input_parameters": {
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first item to return.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code."
+    },
+    "output_parameters": {
+      "items": "An array of saved album objects.",
+      "limit": "The maximum number of items in the response.",
+      "offset": "The offset of the items returned.",
+      "total": "The total number of items available to return."
+    }
+  },
+  {
+    "tool_description": "Save one or more albums to the current user's 'Your Music' library.",
+    "tool": "PUT /me/albums",
+    "input_parameters": {
+      "ids": "Query or Request Body parameter, required. A comma-separated list or JSON array of the Spotify IDs for the albums."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Remove the current user as a follower of one or more artists or other Spotify users.",
+    "tool": "DELETE /me/following",
+    "input_parameters": {
+      "type": "Query parameter, required. The ID type: either artist or user.",
+      "ids": "Query or Request Body parameter, required. A comma-separated list or JSON array of the Spotify IDs."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get the current user's followed artists.",
+    "tool": "GET /me/following",
+    "input_parameters": {
+      "type": "Query parameter, required. The ID type: currently only artist is supported.",
+      "after": "Query parameter, optional. The last artist ID retrieved from the previous request.",
+      "limit": "Query parameter, optional. The maximum number of items to return."
+    },
+    "output_parameters": {
+      "artists": "A cursor-paged set of artist objects."
+    }
+  },
+  {
+    "tool_description": "Add the current user as a follower of one or more artists or other Spotify users.",
+    "tool": "PUT /me/following",
+    "input_parameters": {
+      "type": "Query parameter, required. The ID type: either artist or user.",
+      "ids": "Query or Request Body parameter, required. A comma-separated list or JSON array of the Spotify IDs."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get information about the user's current playback state, including track or episode, progress, and active device.",
+    "tool": "GET /me/player",
+    "input_parameters": {
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "additional_types": "Query parameter, optional. A comma-separated list of item types to support."
+    },
+    "output_parameters": {
+      "device": "The device that is currently active.",
+      "repeat_state": "The repeat state (off, track, context).",
+      "shuffle_state": "If shuffle is on or off.",
+      "is_playing": "If something is currently playing.",
+      "item": "The currently playing track or episode.",
+      "progress_ms": "Progress into the currently playing track or episode."
+    }
+  },
+  {
+    "tool_description": "Get the track currently being played on the user's Spotify account.",
+    "tool": "GET /me/player/currently-playing",
+    "input_parameters": {
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "additional_types": "Query parameter, optional. A comma-separated list of item types to support."
+    },
+    "output_parameters": {
+      "is_playing": "If something is currently playing.",
+      "item": "The currently playing track or episode.",
+      "progress_ms": "Progress into the currently playing track or episode."
+    }
+  },
+  {
+    "tool_description": "Get information about a user's available devices.",
+    "tool": "GET /me/player/devices",
+    "input_parameters": {},
+    "output_parameters": {
+      "devices": "An array of device objects representing the user's available devices."
+    }
+  },
+  {
+    "tool_description": "Skips to next track in the user's queue.",
+    "tool": "POST /me/player/next",
+    "input_parameters": {},
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Pause playback on the user's account.",
+    "tool": "PUT /me/player/pause",
+    "input_parameters": {},
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Start a new context or resume current playback on the user's active device.",
+    "tool": "PUT /me/player/play",
+    "input_parameters": {
+      "context_uri": "Request Body parameter, optional. Spotify URI of the context to play.",
+      "uris": "Request Body parameter, optional. A JSON array of the Spotify track URIs to play.",
+      "offset": "Request Body parameter, optional. Indicates from where in the context playback should start.",
+      "position_ms": "Request Body parameter, optional. Indicates the position in milliseconds to start from."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Skips to previous track in the user's queue.",
+    "tool": "POST /me/player/previous",
+    "input_parameters": {},
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get the list of objects that make up the user's queue.",
+    "tool": "GET /me/player/queue",
+    "input_parameters": {},
+    "output_parameters": {
+      "currently_playing": "The currently playing track or episode.",
+      "queue": "An array of tracks or episodes in the queue."
+    }
+  },
+  {
+    "tool_description": "Add an item to the end of the user's current playback queue.",
+    "tool": "POST /me/player/queue",
+    "input_parameters": {
+      "uri": "Query parameter, required. The uri of the item to add to the queue.",
+      "device_id": "Query parameter, optional. The id of the device this command is targeting."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get tracks from the current user's recently played tracks.",
+    "tool": "GET /me/player/recently-played",
+    "input_parameters": {
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "after": "Query parameter, optional. A Unix timestamp in milliseconds to return items after.",
+      "before": "Query parameter, optional. A Unix timestamp in milliseconds to return items before."
+    },
+    "output_parameters": {
+      "items": "An array of play history objects.",
+      "next": "URL to the next page of items.",
+      "cursors": "The cursors used to find the next set of items."
+    }
+  },
+  {
+    "tool_description": "Set the repeat mode for the user's playback.",
+    "tool": "PUT /me/player/repeat",
+    "input_parameters": {
+      "state": "Query parameter, required. The repeat mode: track, context, or off."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Set the volume for the user's current playback device.",
+    "tool": "PUT /me/player/volume",
+    "input_parameters": {
+      "volume_percent": "Query parameter, required. The volume to set, from 0 to 100."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get a list of the playlists owned or followed by the current Spotify user.",
+    "tool": "GET /me/playlists",
+    "input_parameters": {
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first playlist to return."
+    },
+    "output_parameters": {
+      "items": "An array of simplified playlist objects.",
+      "limit": "The maximum number of items in the response.",
+      "offset": "The offset of the items returned.",
+      "total": "The total number of items available to return."
+    }
+  },
+  {
+    "tool_description": "Get the current user's top artists or tracks based on calculated affinity.",
+    "tool": "GET /me/top/{type}",
+    "input_parameters": {
+      "type": "Path parameter, required. The type of entity to return: artists or tracks.",
+      "time_range": "Query parameter, optional. Over what time frame the affinities are computed.",
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first item to return."
+    },
+    "output_parameters": {
+      "items": "An array of artist or track objects.",
+      "limit": "The maximum number of items in the response.",
+      "offset": "The offset of the items returned.",
+      "total": "The total number of items available to return."
+    }
+  },
+  {
+    "tool_description": "Remove one or more tracks from the current user's 'Your Music' library.",
+    "tool": "DELETE /me/tracks",
+    "input_parameters": {
+      "ids": "Query or Request Body parameter, required. A comma-separated list or JSON array of the Spotify IDs for the tracks."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get a list of the songs saved in the current Spotify user's 'Your Music' library.",
+    "tool": "GET /me/tracks",
+    "input_parameters": {
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first item to return."
+    },
+    "output_parameters": {
+      "items": "An array of saved track objects.",
+      "limit": "The maximum number of items in the response.",
+      "offset": "The offset of the items returned.",
+      "total": "The total number of items available to return."
+    }
+  },
+  {
+    "tool_description": "Save one or more tracks to the current user's 'Your Music' library.",
+    "tool": "PUT /me/tracks",
+    "input_parameters": {
+      "ids": "Query or Request Body parameter, required. A comma-separated list or JSON array of the Spotify IDs for the tracks."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Get a playlist owned by a Spotify user.",
+    "tool": "GET /playlists/{playlist_id}",
+    "input_parameters": {
+      "playlist_id": "Path parameter, required. The Spotify ID of the playlist.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "fields": "Query parameter, optional. Filters for the query.",
+      "additional_types": "Query parameter, optional. A comma-separated list of item types that the client supports."
+    },
+    "output_parameters": {
+      "id": "The Spotify ID for the playlist.",
+      "name": "The name of the playlist.",
+      "description": "The playlist description.",
+      "owner": "The user who owns the playlist.",
+      "tracks": "The tracks of the playlist.",
+      "followers": "Information about the followers of the playlist.",
+      "images": "Images for the playlist."
+    }
+  },
+  {
+    "tool_description": "Change a playlist's name and public/private state.",
+    "tool": "PUT /playlists/{playlist_id}",
+    "input_parameters": {
+      "playlist_id": "Path parameter, required. The Spotify ID of the playlist.",
+      "name": "Request Body parameter, optional. The new name for the playlist.",
+      "public": "Request Body parameter, optional. If true the playlist will be public.",
+      "collaborative": "Request Body parameter, optional. If true, the playlist will become collaborative.",
+      "description": "Request Body parameter, optional. Value for playlist description."
+    },
+    "output_parameters": {}
+  },
+  {
+    "tool_description": "Remove one or more items from a user's playlist.",
+    "tool": "DELETE /playlists/{playlist_id}/tracks",
+    "input_parameters": {
+      "playlist_id": "Path parameter, required. The Spotify ID of the playlist.",
+      "tracks": "Request Body parameter, required. An array of objects containing Spotify URIs of the tracks or episodes to remove.",
+      "snapshot_id": "Request Body parameter, optional. The playlist's snapshot ID against which you want to make the changes."
+    },
+    "output_parameters": {
+      "snapshot_id": "A snapshot ID for the playlist."
+    }
+  },
+  {
+    "tool_description": "Get full details of the items of a playlist owned by a Spotify user.",
+    "tool": "GET /playlists/{playlist_id}/tracks",
+    "input_parameters": {
+      "playlist_id": "Path parameter, required. The Spotify ID of the playlist.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "fields": "Query parameter, optional. Filters for the query.",
+      "limit": "Query parameter, optional. The maximum number of items to return.",
+      "offset": "Query parameter, optional. The index of the first item to return.",
+      "additional_types": "Query parameter, optional. A comma-separated list of item types that the client supports."
+    },
+    "output_parameters": {
+      "items": "An array of playlist track objects.",
+      "limit": "The maximum number of items in the response.",
+      "offset": "The offset of the items returned.",
+      "total": "The total number of items available to return."
+    }
+  },
+  {
+    "tool_description": "Add one or more items to a user's playlist.",
+    "tool": "POST /playlists/{playlist_id}/tracks",
+    "input_parameters": {
+      "playlist_id": "Path parameter, required. The Spotify ID of the playlist.",
+      "uris": "Query or Request Body parameter, required. A comma-separated list or JSON array of Spotify URIs to add.",
+      "position": "Query or Request Body parameter, optional. The position to insert the items."
+    },
+    "output_parameters": {
+      "snapshot_id": "A snapshot ID for the playlist."
+    }
+  },
+  {
+    "tool_description": "Recommendations are generated based on the available information for a given seed entity and matched against similar artists and tracks.",
+    "tool": "GET /recommendations",
+    "input_parameters": {
+      "seed_artists": "Query parameter, required. A comma separated list of Spotify IDs for seed artists.",
+      "seed_genres": "Query parameter, required. A comma separated list of any genres in the set of available genre seeds.",
+      "seed_tracks": "Query parameter, required. A comma separated list of Spotify IDs for a seed track.",
+      "limit": "Query parameter, optional. The target size of the list of recommended tracks.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code."
+    },
+    "output_parameters": {
+      "seeds": "An array of recommendation seed objects.",
+      "tracks": "An array of track object (simplified) ordered according to the parameters supplied."
+    }
+  },
+  {
+    "tool_description": "Get Spotify catalog information about albums, artists, playlists, tracks, shows, episodes or audiobooks that match a keyword string.",
+    "tool": "GET /search",
+    "input_parameters": {
+      "q": "Query parameter, required. Your search query.",
+      "type": "Query parameter, required. A comma-separated list of item types to search across.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code.",
+      "limit": "Query parameter, optional. The maximum number of results to return in each item type.",
+      "offset": "Query parameter, optional. The index of the first result to return.",
+      "include_external": "Query parameter, optional. If include_external=audio is specified it signals that the client can play externally hosted audio content."
+    },
+    "output_parameters": {
+      "albums": "A paged set of albums matching the query.",
+      "artists": "A paged set of artists matching the query.",
+      "audiobooks": "A paged set of audiobooks matching the query.",
+      "episodes": "A paged set of episodes matching the query.",
+      "playlists": "A paged set of playlists matching the query.",
+      "shows": "A paged set of shows matching the query.",
+      "tracks": "A paged set of tracks matching the query."
+    }
+  },
+  {
+    "tool_description": "Get Spotify catalog information for a single track identified by its unique Spotify ID.",
+    "tool": "GET /tracks/{id}",
+    "input_parameters": {
+      "id": "Path parameter, required. The Spotify ID for the track.",
+      "market": "Query parameter, optional. An ISO 3166-1 alpha-2 country code."
+    },
+    "output_parameters": {
+      "id": "The Spotify ID for the track.",
+      "name": "The name of the track.",
+      "album": "The album on which the track appears.",
+      "artists": "The artists who performed the track.",
+      "duration_ms": "The track length in milliseconds.",
+      "popularity": "The popularity of the track.",
+      "preview_url": "A link to a 30 second preview (MP3 format) of the track."
+    }
+  },
+  {
+    "tool_description": "Create a playlist for a Spotify user.",
+    "tool": "POST /users/{user_id}/playlists",
+    "input_parameters": {
+      "user_id": "Path parameter, required. The user's Spotify user ID.",
+      "name": "Request Body parameter, required. The name for the new playlist.",
+      "public": "Request Body parameter, optional. Defaults to true. If true the playlist will be public.",
+      "collaborative": "Request Body parameter, optional. Defaults to false. If true the playlist will be collaborative.",
+      "description": "Request Body parameter, optional. Value for playlist description."
+    },
+    "output_parameters": {
+      "id": "The Spotify ID for the playlist.",
+      "name": "The name of the playlist.",
+      "description": "The playlist description.",
+      "owner": "The user who owns the playlist.",
+      "tracks": "The tracks of the playlist.",
+      "public": "The playlist's public/private status."
+    }
+  }
+]

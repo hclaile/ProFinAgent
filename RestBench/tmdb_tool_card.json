@@ -1,0 +1,889 @@
+[
+  {
+    "tool_description": "Get collection details by id. #### Recent Changes | **Date** | **Change** | | - | - | | March 16, 2018 | Added the [translations](#endpoint:bhcsxEgRvyk3N7FnD) method. |",
+    "tool": "GET /collection/{collection_id}",
+    "input_parameters": {
+      "collection_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "name": "The name.",
+      "overview": "The overview.",
+      "poster_path": "The poster path.",
+      "backdrop_path": "The backdrop path.",
+      "parts": "An array field containing parts."
+    }
+  },
+  {
+    "tool_description": "Get the images for a collection by id.",
+    "tool": "GET /collection/{collection_id}/images",
+    "input_parameters": {
+      "collection_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "backdrops": "An array field containing backdrops.",
+      "posters": "An array field containing posters."
+    }
+  },
+  {
+    "tool_description": "Get a companies details by id.",
+    "tool": "GET /company/{company_id}",
+    "input_parameters": {
+      "company_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "description": "The description.",
+      "headquarters": "The headquarters.",
+      "homepage": "The homepage.",
+      "id": "The id.",
+      "logo_path": "The logo path.",
+      "name": "The name.",
+      "origin_country": "The origin country.",
+      "parent_company": "An object field containing parent company information."
+    }
+  },
+  {
+    "tool_description": "Get a companies logos by id. There are two image formats that are supported for companies, PNG's and SVG's. You can see which type the original file is by looking at the `file_type` field. We prefer SVG's as they are resolution independent and as such, the width and height are only there to reflect the original asset that was uploaded. An SVG can be scaled properly beyond those dimensions if you call them as a PNG. For more information about how SVG's and PNG's can be used, take a read through [this document](#docTextSection:mXP9B2uzoDJFguDZv).",
+    "tool": "GET /company/{company_id}/images",
+    "input_parameters": {
+      "company_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "logos": "An array field containing logos."
+    }
+  },
+  {
+    "tool_description": "Get a movie or TV credit details by id. #### Recent Changes | **Date** | **Change** | | - | - | | July 13, 2018 | Movie credits are now supported. |",
+    "tool": "GET /credit/{credit_id}",
+    "input_parameters": {
+      "credit_id": "Path parameter, required. Type: string."
+    },
+    "output_parameters": {
+      "credit_type": "The credit type.",
+      "department": "The department.",
+      "job": "The job.",
+      "media": "An object field containing media information.",
+      "media_type": "The media type.",
+      "id": "The id.",
+      "person": "An object field containing person information."
+    }
+  },
+  {
+    "tool_description": "Discover movies by different types of data like average rating, number of votes, genres and certifications. You can get a valid list of certifications from the [certifications list](#endpoint:faFKjuKG2HnwexAWM) method. Discover also supports a nice list of sort options. See below for all of the available options. Please note, when using `certification` \\ `certification.lte` you must also specify `certification_country`. These two parameters work together in order to filter the results. You can only filter results with the countries we have added to our [certifications list](#endpoint:faFKjuKG2HnwexAWM). If you specify the `region` parameter, the regional release date will be used instead of the primary release date. The date returned will be the first date based on your query (ie. if a `with_release_type` is specified). It's important to note the order of the release types that are used. Specifying \"2|3\" would return the limited theatrical release date as opposed to \"3|2\" which would return the theatrical date. Also note that a number of filters support being comma (`,`) or pipe (`|`) separated. Comma's are treated like an `AND` and query while pipe's are an `OR`. Some examples of what can be done with discover can be found [here](https://www.themoviedb.org/documentation/api/discover).",
+    "tool": "GET /discover/movie",
+    "input_parameters": {
+      "region": "Query parameter, optional. Specify a ISO 3166-1 code to filter release dates. Must be uppercase.",
+      "sort_by": "Query parameter, optional. Choose from one of the many available sort options.",
+      "certification_country": "Query parameter, optional. Used in conjunction with the certification filter, use this to specify a country with a valid certification.",
+      "certification": "Query parameter, optional. Filter results with a valid certification from the 'certification_country' field.",
+      "certification.lte": "Query parameter, optional. Filter and only include movies that have a certification that is less than or equal to the specified value.",
+      "certification.gte": "Query parameter, optional. Filter and only include movies that have a certification that is greater than or equal to the specified value.",
+      "include_adult": "Query parameter, optional. A filter and include or exclude adult movies.",
+      "include_video": "Query parameter, optional. A filter to include or exclude videos.",
+      "page": "Query parameter, optional. Specify the page of results to query.",
+      "primary_release_year": "Query parameter, optional. A filter to limit the results to a specific primary release year.",
+      "primary_release_date.gte": "Query parameter, optional. Filter and only include movies that have a primary release date that is greater or equal to the specified value.",
+      "primary_release_date.lte": "Query parameter, optional. Filter and only include movies that have a primary release date that is less than or equal to the specified value.",
+      "release_date.gte": "Query parameter, optional. Filter and only include movies that have a release date (looking at all release dates) that is greater or equal to the specified value.",
+      "release_date.lte": "Query parameter, optional. Filter and only include movies that have a release date (looking at all release dates) that is less than or equal to the specified value.",
+      "with_release_type": "Query parameter, optional. Specify a comma (AND) or pipe (OR) separated value to filter release types by. These release types map to the same values found on the movie release date method.",
+      "year": "Query parameter, optional. A filter to limit the results to a specific year (looking at all release dates).",
+      "vote_count.gte": "Query parameter, optional. Filter and only include movies that have a vote count that is greater or equal to the specified value.",
+      "vote_count.lte": "Query parameter, optional. Filter and only include movies that have a vote count that is less than or equal to the specified value.",
+      "vote_average.gte": "Query parameter, optional. Filter and only include movies that have a rating that is greater or equal to the specified value.",
+      "vote_average.lte": "Query parameter, optional. Filter and only include movies that have a rating that is less than or equal to the specified value.",
+      "with_cast": "Query parameter, optional. A comma separated list of person ID's. Only include movies that have one of the ID's added as an actor.",
+      "with_crew": "Query parameter, optional. A comma separated list of person ID's. Only include movies that have one of the ID's added as a crew member.",
+      "with_people": "Query parameter, optional. A comma separated list of person ID's. Only include movies that have one of the ID's added as a either a actor or a crew member.",
+      "with_companies": "Query parameter, optional. A comma separated list of production company ID's. Only include movies that have one of the ID's added as a production company.",
+      "with_genres": "Query parameter, optional. Comma separated value of genre ids that you want to include in the results.",
+      "without_genres": "Query parameter, optional. Comma separated value of genre ids that you want to exclude from the results.",
+      "with_keywords": "Query parameter, optional. A comma separated list of keyword ID's. Only includes movies that have one of the ID's added as a keyword.",
+      "without_keywords": "Query parameter, optional. Exclude items with certain keywords. You can comma and pipe seperate these values to create an 'AND' or 'OR' logic.",
+      "with_runtime.gte": "Query parameter, optional. Filter and only include movies that have a runtime that is greater or equal to a value.",
+      "with_runtime.lte": "Query parameter, optional. Filter and only include movies that have a runtime that is less than or equal to a value.",
+      "with_original_language": "Query parameter, optional. Specify an ISO 639-1 string to filter results by their original language value.",
+      "with_watch_providers": "Query parameter, optional. A comma or pipe separated list of watch provider ID's. Combine this filter with `watch_region` in order to filter your results by a specific watch provider in a specific region.",
+      "watch_region": "Query parameter, optional. An ISO 3166-1 code. Combine this filter with `with_watch_providers` in order to filter your results by a specific watch provider in a specific region.",
+      "with_watch_monetization_types": "Query parameter, optional. In combination with `watch_region`, you can filter by monetization type.",
+      "without_companies": "Query parameter, optional. Filter the results to exclude the specific production companies you specify here. `AND` / `OR` filters are supported."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Discover TV shows by different types of data like average rating, number of votes, genres, the network they aired on and air dates. Discover also supports a nice list of sort options. See below for all of the available options. Also note that a number of filters support being comma (`,`) or pipe (`|`) separated. Comma's are treated like an `AND` and query while pipe's are an `OR`. Some examples of what can be done with discover can be found [here](https://www.themoviedb.org/documentation/api/discover).",
+    "tool": "GET /discover/tv",
+    "input_parameters": {
+      "sort_by": "Query parameter, optional. Choose from one of the many available sort options.",
+      "air_date.gte": "Query parameter, optional. Filter and only include TV shows that have a air date (by looking at all episodes) that is greater or equal to the specified value.",
+      "air_date.lte": "Query parameter, optional. Filter and only include TV shows that have a air date (by looking at all episodes) that is less than or equal to the specified value.",
+      "first_air_date.gte": "Query parameter, optional. Filter and only include TV shows that have a original air date that is greater or equal to the specified value. Can be used in conjunction with the \"include_null_first_air_dates\" filter if you want to include items with no air date.",
+      "first_air_date.lte": "Query parameter, optional. Filter and only include TV shows that have a original air date that is less than or equal to the specified value. Can be used in conjunction with the \"include_null_first_air_dates\" filter if you want to include items with no air date.",
+      "first_air_date_year": "Query parameter, optional. Filter and only include TV shows that have a original air date year that equal to the specified value. Can be used in conjunction with the \"include_null_first_air_dates\" filter if you want to include items with no air date.",
+      "page": "Query parameter, optional. Specify the page of results to query.",
+      "timezone": "Query parameter, optional. Used in conjunction with the air_date.gte/lte filter to calculate the proper UTC offset.",
+      "vote_average.gte": "Query parameter, optional. Filter and only include movies that have a rating that is greater or equal to the specified value.",
+      "vote_count.gte": "Query parameter, optional. Filter and only include movies that have a rating that is less than or equal to the specified value.",
+      "with_genres": "Query parameter, optional. Comma separated value of genre ids that you want to include in the results.",
+      "with_networks": "Query parameter, optional. Comma separated value of network ids that you want to include in the results.",
+      "without_genres": "Query parameter, optional. Comma separated value of genre ids that you want to exclude from the results.",
+      "with_runtime.gte": "Query parameter, optional. Filter and only include TV shows with an episode runtime that is greater than or equal to a value.",
+      "with_runtime.lte": "Query parameter, optional. Filter and only include TV shows with an episode runtime that is less than or equal to a value.",
+      "include_null_first_air_dates": "Query parameter, optional. Use this filter to include TV shows that don't have an air date while using any of the \"first_air_date\" filters.",
+      "with_original_language": "Query parameter, optional. Specify an ISO 639-1 string to filter results by their original language value.",
+      "without_keywords": "Query parameter, optional. Exclude items with certain keywords. You can comma and pipe seperate these values to create an 'AND' or 'OR' logic.",
+      "screened_theatrically": "Query parameter, optional. Filter results to include items that have been screened theatrically.",
+      "with_companies": "Query parameter, optional. A comma separated list of production company ID's. Only include movies that have one of the ID's added as a production company.",
+      "with_keywords": "Query parameter, optional. A comma separated list of keyword ID's. Only includes TV shows that have one of the ID's added as a keyword.",
+      "with_watch_providers": "Query parameter, optional. A comma or pipe separated list of watch provider ID's. Combine this filter with `watch_region` in order to filter your results by a specific watch provider in a specific region.",
+      "watch_region": "Query parameter, optional. An ISO 3166-1 code. Combine this filter with `with_watch_providers` in order to filter your results by a specific watch provider in a specific region.",
+      "with_watch_monetization_types": "Query parameter, optional. In combination with `watch_region`, you can filter by monetization type.",
+      "with_status": "Query parameter, optional. Filter TV shows by their status.\n\nReturning Series: 0\nPlanned: 1\nIn Production: 2\nEnded: 3\nCancelled: 4\nPilot: 5",
+      "with_type": "Query parameter, optional. Filter TV shows by their type.\n\nDocumentary: 0\nNews: 1\nMiniseries: 2\nReality: 3\nScripted: 4\nTalk Show: 5\nVideo: 6",
+      "without_companies": "Query parameter, optional. Filter the results to exclude the specific production companies you specify here. `AND` / `OR` filters are supported."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get the list of official genres for movies.",
+    "tool": "GET /genre/movie/list",
+    "input_parameters": {},
+    "output_parameters": {
+      "genres": "An array field containing genres."
+    }
+  },
+  {
+    "tool_description": "Get the list of official genres for TV shows.",
+    "tool": "GET /genre/tv/list",
+    "input_parameters": {},
+    "output_parameters": {
+      "genres": "An array field containing genres."
+    }
+  },
+  {
+    "tool_description": "Get the most newly created movie. This is a live response and will continuously change.",
+    "tool": "GET /movie/latest",
+    "input_parameters": {},
+    "output_parameters": {
+      "adult": "The adult.",
+      "backdrop_path": "The backdrop path.",
+      "belongs_to_collection": "The belongs to collection.",
+      "budget": "The budget.",
+      "genres": "An array field containing genres.",
+      "homepage": "The homepage.",
+      "id": "The id.",
+      "imdb_id": "The imdb id.",
+      "original_language": "The original language.",
+      "original_title": "The original title.",
+      "overview": "The overview.",
+      "popularity": "The popularity.",
+      "poster_path": "The poster path.",
+      "production_companies": "An array field containing production companies.",
+      "production_countries": "An array field containing production countries.",
+      "release_date": "The release date.",
+      "revenue": "The revenue.",
+      "runtime": "The runtime.",
+      "spoken_languages": "An array field containing spoken languages.",
+      "status": "The status.",
+      "tagline": "The tagline.",
+      "title": "The title.",
+      "video": "The video.",
+      "vote_average": "The vote average.",
+      "vote_count": "The vote count."
+    }
+  },
+  {
+    "tool_description": "Get a list of movies in theatres. This is a release type query that looks for all movies that have a release type of 2 or 3 within the specified date range. You can optionally specify a `region` prameter which will narrow the search to only look for theatrical release dates within the specified country.",
+    "tool": "GET /movie/now_playing",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query.",
+      "region": "Query parameter, optional. Specify a ISO 3166-1 code to filter release dates. Must be uppercase."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "dates": "An object field containing dates information.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get a list of the current popular movies on TMDb. This list updates daily.",
+    "tool": "GET /movie/popular",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query.",
+      "region": "Query parameter, optional. Specify a ISO 3166-1 code to filter release dates. Must be uppercase."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get the top rated movies on TMDb.",
+    "tool": "GET /movie/top_rated",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query.",
+      "region": "Query parameter, optional. Specify a ISO 3166-1 code to filter release dates. Must be uppercase."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get a list of upcoming movies in theatres. This is a release type query that looks for all movies that have a release type of 2 or 3 within the specified date range. You can optionally specify a `region` prameter which will narrow the search to only look for theatrical release dates within the specified country.",
+    "tool": "GET /movie/upcoming",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query.",
+      "region": "Query parameter, optional. Specify a ISO 3166-1 code to filter release dates. Must be uppercase."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "dates": "An object field containing dates information.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get the primary information about a movie. Supports `append_to_response`. Read more about this [here](#docTextSection:JdZq8ctmcxNqyLQjp).",
+    "tool": "GET /movie/{movie_id}",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer.",
+      "append_to_response": "Query parameter, optional. Append requests within the same namespace to the response."
+    },
+    "output_parameters": {
+      "adult": "The adult.",
+      "backdrop_path": "The backdrop path.",
+      "belongs_to_collection": "An object field containing belongs to collection information.",
+      "budget": "The budget.",
+      "genres": "An array field containing genres.",
+      "homepage": "The homepage.",
+      "id": "The id.",
+      "imdb_id": "The imdb id.",
+      "original_language": "The original language.",
+      "original_title": "The original title.",
+      "overview": "The overview.",
+      "popularity": "The popularity.",
+      "poster_path": "The poster path.",
+      "production_companies": "An array field containing production companies.",
+      "production_countries": "An array field containing production countries.",
+      "release_date": "The release date.",
+      "revenue": "The revenue.",
+      "runtime": "The runtime.",
+      "spoken_languages": "An array field containing spoken languages.",
+      "status": "The status.",
+      "tagline": "The tagline.",
+      "title": "The title.",
+      "video": "The video.",
+      "vote_average": "The vote average.",
+      "vote_count": "The vote count."
+    }
+  },
+  {
+    "tool_description": "Get the cast and crew for a movie.",
+    "tool": "GET /movie/{movie_id}/credits",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "cast": "An array field containing cast.",
+      "crew": "An array field containing crew."
+    }
+  },
+  {
+    "tool_description": "Get the images that belong to a movie. Querying images with a `language` parameter will filter the results. If you want to include a fallback language (especially useful for backdrops) you can use the `include_image_language` parameter. This should be a comma seperated value like so: `include_image_language=en,null`.",
+    "tool": "GET /movie/{movie_id}/images",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer.",
+      "include_image_language": "Query parameter, optional. Type: string."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "backdrops": "An array field containing backdrops.",
+      "posters": "An array field containing posters."
+    }
+  },
+  {
+    "tool_description": "Get the keywords that have been added to a movie.",
+    "tool": "GET /movie/{movie_id}/keywords",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "keywords": "An array field containing keywords."
+    }
+  },
+  {
+    "tool_description": "Get a list of recommended movies for a movie.",
+    "tool": "GET /movie/{movie_id}/recommendations",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get the release date along with the certification for a movie. Release dates support different types: 1. Premiere 2. Theatrical (limited) 3. Theatrical 4. Digital 5. Physical 6. TV",
+    "tool": "GET /movie/{movie_id}/release_dates",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "results": "An array field containing results."
+    }
+  },
+  {
+    "tool_description": "Get the user reviews for a movie.",
+    "tool": "GET /movie/{movie_id}/reviews",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get a list of similar movies. This is **not** the same as the \"Recommendation\" system you see on the website. These items are assembled by looking at keywords and genres.",
+    "tool": "GET /movie/{movie_id}/similar",
+    "input_parameters": {
+      "movie_id": "Path parameter, required. Type: integer.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get the details of a network.",
+    "tool": "GET /network/{network_id}",
+    "input_parameters": {
+      "network_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "headquarters": "The headquarters.",
+      "homepage": "The homepage.",
+      "id": "The id.",
+      "name": "The name.",
+      "origin_country": "The origin country."
+    }
+  },
+  {
+    "tool_description": "Get the TV network logos by id. There are two image formats that are supported for networks, PNG's and SVG's. You can see which type the original file is by looking at the `file_type` field. We prefer SVG's as they are resolution independent and as such, the width and height are only there to reflect the original asset that was uploaded. An SVG can be scaled properly beyond those dimensions if you call them as a PNG. For more information about how SVG's and PNG's can be used, take a read through [this document](#docTextSection:mXP9B2uzoDJFguDZv).",
+    "tool": "GET /network/{network_id}/images",
+    "input_parameters": {
+      "network_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "logos": "An array field containing logos."
+    }
+  },
+  {
+    "tool_description": "Get the list of popular people on TMDb. This list updates daily.",
+    "tool": "GET /person/popular",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get the primary person details by id. Supports `append_to_response`. Read more about this [here](#docTextSection:JdZq8ctmcxNqyLQjp). #### Recent Changes | **Date** | **Change** | | - | - | | July 17, 2018 | Added the `known_for_department` field. | | April 26, 2018 | Added the [translations](#endpoint:CSaMjCxXAtGpxNGfS) method. | | November 9, 2016 | Biographies are now translatable on TMDb. This means you can query person details with a language parameter. |",
+    "tool": "GET /person/{person_id}",
+    "input_parameters": {
+      "person_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "birthday": "The birthday.",
+      "known_for_department": "The known for department.",
+      "deathday": "The deathday.",
+      "id": "The id.",
+      "name": "The name.",
+      "also_known_as": "An array field containing also known as.",
+      "gender": "The gender.",
+      "biography": "The biography.",
+      "popularity": "The popularity.",
+      "place_of_birth": "The place of birth.",
+      "profile_path": "The profile path.",
+      "adult": "The adult.",
+      "imdb_id": "The imdb id.",
+      "homepage": "The homepage."
+    }
+  },
+  {
+    "tool_description": "Get the images for a person.",
+    "tool": "GET /person/{person_id}/images",
+    "input_parameters": {
+      "person_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "profiles": "An array field containing profiles."
+    }
+  },
+  {
+    "tool_description": "Get the movie credits for a person, the results contains various information such as popularity and release date.",
+    "tool": "GET /person/{person_id}/movie_credits",
+    "input_parameters": {
+      "person_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "cast": "An array field containing cast.",
+      "crew": "An array field containing crew.",
+      "id": "The id."
+    }
+  },
+  {
+    "tool_description": "Get the TV show credits for a person. You can query for some extra details about the credit with the [credit method](#endpoint:xPWdEBLkvCNZSicLN).",
+    "tool": "GET /person/{person_id}/tv_credits",
+    "input_parameters": {
+      "person_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "cast": "An array field containing cast.",
+      "crew": "An array field containing crew.",
+      "id": "The id."
+    }
+  },
+  {
+    "tool_description": "Get Details",
+    "tool": "GET /review/{review_id}",
+    "input_parameters": {
+      "review_id": "Path parameter, required. Type: string."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "author": "The author.",
+      "content": "The content.",
+      "iso_639_1": "The iso 639 1.",
+      "media_id": "The media id.",
+      "media_title": "The media title.",
+      "media_type": "The media type.",
+      "url": "The url."
+    }
+  },
+  {
+    "tool_description": "Search for collections.",
+    "tool": "GET /search/collection",
+    "input_parameters": {
+      "query": "Query parameter, required. Pass a text query to search. This value should be URI encoded.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Search for companies.",
+    "tool": "GET /search/company",
+    "input_parameters": {
+      "query": "Query parameter, required. Pass a text query to search. This value should be URI encoded.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Search for movies.",
+    "tool": "GET /search/movie",
+    "input_parameters": {
+      "query": "Query parameter, required. Pass a text query to search. This value should be URI encoded.",
+      "page": "Query parameter, optional. Specify which page to query.",
+      "include_adult": "Query parameter, optional. Choose whether to inlcude adult (pornography) content in the results.",
+      "region": "Query parameter, optional. Specify a ISO 3166-1 code to filter release dates. Must be uppercase.",
+      "year": "Query parameter, optional. Type: integer.",
+      "primary_release_year": "Query parameter, optional. Type: integer."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Search for people.",
+    "tool": "GET /search/person",
+    "input_parameters": {
+      "query": "Query parameter, required. Pass a text query to search. This value should be URI encoded.",
+      "page": "Query parameter, optional. Specify which page to query.",
+      "include_adult": "Query parameter, optional. Choose whether to inlcude adult (pornography) content in the results.",
+      "region": "Query parameter, optional. Specify a ISO 3166-1 code to filter release dates. Must be uppercase."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Search for a TV show.",
+    "tool": "GET /search/tv",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query.",
+      "query": "Query parameter, required. Pass a text query to search. This value should be URI encoded.",
+      "include_adult": "Query parameter, optional. Choose whether to inlcude adult (pornography) content in the results.",
+      "first_air_date_year": "Query parameter, optional. Type: integer."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get the daily or weekly trending items. The daily trending list tracks items over the period of a day while items have a 24 hour half life. The weekly list tracks items over a 7 day period, with a 7 day half life. #### Valid Media Types | **Media Type** | **Description** | | - | - | | all | Include all movies, TV shows and people in the results as a global trending list. | | movie | Show the trending movies in the results. | | tv | Show the trending TV shows in the results. | | person | Show the trending people in the results. | #### Valid Time Windows | **Time Window** | **Description** | | - | - | | day | View the trending list for the day. | | week | View the trending list for the week. |",
+    "tool": "GET /trending/{media_type}/{time_window}",
+    "input_parameters": {
+      "media_type": "Path parameter, required. Type: string.",
+      "time_window": "Path parameter, required. Type: string."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "": "An object field containing  information.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get a list of TV shows that are airing today. This query is purely day based as we do not currently support airing times. You can specify a [timezone](endpoint:KQ4CDdEoWKJYLkrhS) to offset the day calculation. Without a specified timezone, this query defaults to EST (Eastern Time UTC-05:00).",
+    "tool": "GET /tv/airing_today",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get the most newly created TV show. This is a live response and will continuously change.",
+    "tool": "GET /tv/latest",
+    "input_parameters": {},
+    "output_parameters": {
+      "backdrop_path": "The backdrop path.",
+      "created_by": "An array field containing created by.",
+      "episode_run_time": "An array field containing episode run time.",
+      "first_air_date": "The first air date.",
+      "genres": "An array field containing genres.",
+      "homepage": "The homepage.",
+      "id": "The id.",
+      "in_production": "The in production.",
+      "languages": "An array field containing languages.",
+      "last_air_date": "The last air date.",
+      "name": "The name.",
+      "networks": "An array field containing networks.",
+      "number_of_episodes": "The number of episodes.",
+      "number_of_seasons": "The number of seasons.",
+      "origin_country": "An array field containing origin country.",
+      "original_language": "The original language.",
+      "original_name": "The original name.",
+      "overview": "The overview.",
+      "popularity": "The popularity.",
+      "poster_path": "The poster path.",
+      "production_companies": "An array field containing production companies.",
+      "seasons": "An array field containing seasons.",
+      "status": "The status.",
+      "type": "The type.",
+      "vote_average": "The vote average.",
+      "vote_count": "The vote count."
+    }
+  },
+  {
+    "tool_description": "Get a list of shows that are currently on the air. This query looks for any TV show that has an episode with an air date in the next 7 days.",
+    "tool": "GET /tv/on_the_air",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get a list of the current popular TV shows on TMDb. This list updates daily.",
+    "tool": "GET /tv/popular",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get a list of the top rated TV shows on TMDb.",
+    "tool": "GET /tv/top_rated",
+    "input_parameters": {
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_results": "The total results.",
+      "total_pages": "The total pages."
+    }
+  },
+  {
+    "tool_description": "Get the primary TV show details by id. Supports `append_to_response`. Read more about this [here](#docTextSection:JdZq8ctmcxNqyLQjp). #### Recent Changes | **Date** | **Change** | | - | - | | July 17, 2018 | We now return `last_episode_to_air` and `next_episode_to_air` fields. | | March 12, 2018 | Networks return proper logos and we introduced SVG support. | | March 8, 2018 | The `seasons` field now returns the translated names and overviews. |",
+    "tool": "GET /tv/{tv_id}",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "backdrop_path": "The backdrop path.",
+      "created_by": "An array field containing created by.",
+      "episode_run_time": "An array field containing episode run time.",
+      "first_air_date": "The first air date.",
+      "genres": "An array field containing genres.",
+      "homepage": "The homepage.",
+      "id": "The id.",
+      "in_production": "The in production.",
+      "languages": "An array field containing languages.",
+      "last_air_date": "The last air date.",
+      "last_episode_to_air": "An object field containing last episode to air information.",
+      "name": "The name.",
+      "next_episode_to_air": "The next episode to air.",
+      "networks": "An array field containing networks.",
+      "number_of_episodes": "The number of episodes.",
+      "number_of_seasons": "The number of seasons.",
+      "origin_country": "An array field containing origin country.",
+      "original_language": "The original language.",
+      "original_name": "The original name.",
+      "overview": "The overview.",
+      "popularity": "The popularity.",
+      "poster_path": "The poster path.",
+      "production_companies": "An array field containing production companies.",
+      "seasons": "An array field containing seasons.",
+      "status": "The status.",
+      "type": "The type.",
+      "vote_average": "The vote average.",
+      "vote_count": "The vote count."
+    }
+  },
+  {
+    "tool_description": "Get the credits (cast and crew) that have been added to a TV show.",
+    "tool": "GET /tv/{tv_id}/credits",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "cast": "An array field containing cast.",
+      "crew": "An array field containing crew.",
+      "id": "The id."
+    }
+  },
+  {
+    "tool_description": "Get the images that belong to a TV show. Querying images with a `language` parameter will filter the results. If you want to include a fallback language (especially useful for backdrops) you can use the `include_image_language` parameter. This should be a comma seperated value like so: `include_image_language=en,null`.",
+    "tool": "GET /tv/{tv_id}/images",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "backdrops": "An array field containing backdrops.",
+      "id": "The id.",
+      "posters": "An array field containing posters."
+    }
+  },
+  {
+    "tool_description": "Get the keywords that have been added to a TV show.",
+    "tool": "GET /tv/{tv_id}/keywords",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "results": "An array field containing results."
+    }
+  },
+  {
+    "tool_description": "Get the list of TV show recommendations for this item.",
+    "tool": "GET /tv/{tv_id}/recommendations",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get the reviews for a TV show.",
+    "tool": "GET /tv/{tv_id}/reviews",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  },
+  {
+    "tool_description": "Get the TV season details by id. Supports `append_to_response`. Read more about this [here](#docTextSection:JdZq8ctmcxNqyLQjp).",
+    "tool": "GET /tv/{tv_id}/season/{season_number}",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "season_number": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "_id": "The  id.",
+      "air_date": "The air date.",
+      "episodes": "An array field containing episodes.",
+      "name": "The name.",
+      "overview": "The overview.",
+      "id": "The id.",
+      "poster_path": "The poster path.",
+      "season_number": "The season number."
+    }
+  },
+  {
+    "tool_description": "Get the credits for TV season.",
+    "tool": "GET /tv/{tv_id}/season/{season_number}/credits",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "season_number": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "cast": "An array field containing cast.",
+      "crew": "An array field containing crew.",
+      "id": "The id."
+    }
+  },
+  {
+    "tool_description": "Get the TV episode details by id. Supports `append_to_response`. Read more about this [here](#docTextSection:JdZq8ctmcxNqyLQjp). #### Recent Changes | **Date** | **Change** | | - | - | | June 1, 2018 | Added the [translations](#endpoint:5SFwZar3LkP99QMp7) method. |",
+    "tool": "GET /tv/{tv_id}/season/{season_number}/episode/{episode_number}",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "season_number": "Path parameter, required. Type: integer.",
+      "episode_number": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "air_date": "The air date.",
+      "crew": "An array field containing crew.",
+      "episode_number": "The episode number.",
+      "guest_stars": "An array field containing guest stars.",
+      "name": "The name.",
+      "overview": "The overview.",
+      "id": "The id.",
+      "production_code": "The production code.",
+      "season_number": "The season number.",
+      "still_path": "The still path.",
+      "vote_average": "The vote average.",
+      "vote_count": "The vote count."
+    }
+  },
+  {
+    "tool_description": "Get the credits (cast, crew and guest stars) for a TV episode.",
+    "tool": "GET /tv/{tv_id}/season/{season_number}/episode/{episode_number}/credits",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "season_number": "Path parameter, required. Type: integer.",
+      "episode_number": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "cast": "An array field containing cast.",
+      "crew": "An array field containing crew.",
+      "guest_stars": "An array field containing guest stars.",
+      "id": "The id."
+    }
+  },
+  {
+    "tool_description": "Get the images that belong to a TV episode. Querying images with a `language` parameter will filter the results. If you want to include a fallback language (especially useful for backdrops) you can use the `include_image_language` parameter. This should be a comma seperated value like so: `include_image_language=en,null`.",
+    "tool": "GET /tv/{tv_id}/season/{season_number}/episode/{episode_number}/images",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "season_number": "Path parameter, required. Type: integer.",
+      "episode_number": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "stills": "An array field containing stills."
+    }
+  },
+  {
+    "tool_description": "Get the images that belong to a TV season. Querying images with a `language` parameter will filter the results. If you want to include a fallback language (especially useful for backdrops) you can use the `include_image_language` parameter. This should be a comma seperated value like so: `include_image_language=en,null`.",
+    "tool": "GET /tv/{tv_id}/season/{season_number}/images",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "season_number": "Path parameter, required. Type: integer."
+    },
+    "output_parameters": {
+      "id": "The id.",
+      "posters": "An array field containing posters."
+    }
+  },
+  {
+    "tool_description": "Get a list of similar TV shows. These items are assembled by looking at keywords and genres.",
+    "tool": "GET /tv/{tv_id}/similar",
+    "input_parameters": {
+      "tv_id": "Path parameter, required. Type: integer.",
+      "page": "Query parameter, optional. Specify which page to query."
+    },
+    "output_parameters": {
+      "page": "The page.",
+      "results": "An array field containing results.",
+      "total_pages": "The total pages.",
+      "total_results": "The total results."
+    }
+  }
+]

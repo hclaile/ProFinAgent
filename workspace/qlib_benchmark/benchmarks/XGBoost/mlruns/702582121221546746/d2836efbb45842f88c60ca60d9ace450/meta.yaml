@@ -1,0 +1,14 @@
+artifact_uri: file:///data0/huangcheng/Qlib_Mcp/workspace/qlib_benchmark/benchmarks/XGBoost/mlruns/702582121221546746/d2836efbb45842f88c60ca60d9ace450/artifacts
+end_time: 1765089285080
+entry_point_name: ''
+experiment_id: '702582121221546746'
+lifecycle_stage: active
+run_id: d2836efbb45842f88c60ca60d9ace450
+run_name: mlflow_recorder
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1765089283609
+status: 4
+tags: []
+user_id: huangcheng
