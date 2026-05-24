@@ -1,0 +1,13 @@
+,exprs,ic,weight
+0,"Ref(Mul(Constant(1.0),$open),40)",-0.01362893171608448,0.06984051500129425
+1,"Div(Constant(-30.0),Log($close))",-0.00024682251387275755,1.0298405860779692e-05
+2,"Add($close,$volume)",-0.0021646239329129457,-0.00012086120880905034
+3,"Add(Mul(Constant(-10.0),Sub(Ref(Std($open,10),30),Greater(Sub(Constant(-5.0),Add($volume,Constant(-2.0))),Div(Constant(1.0),$high)))),Constant(-30.0))",0.021799856796860695,0.004810115080466759
+4,"Log(Min(Mul($low,$close),10))",-0.025642214342951775,-0.0022799041338335195
+5,"Sub(Med(WMA(Sub(Constant(10.0),Std(Sub(Var(Delta(Mul($high,Constant(-5.0)),10),10),Constant(0.01)),10)),10),20),Constant(0.5))",0.0063387504778802395,-0.00432440210662601
+6,$close,-0.0265695508569479,-0.08175913067235467
+7,"Div(Mean(Abs(Div(Constant(-2.0),EMA($close,40))),30),$volume)",0.04406364634633064,0.03843098172223274
+8,"Log(Mul(Sub(Mul(Constant(-30.0),Mul(Less($volume,Div(Abs($low),Constant(0.01))),Constant(1.0))),Mul(Constant(10.0),$open)),Constant(5.0)))",0.0,0.0
+9,"Mul(Constant(-30.0),$volume)",0.0021646239329129457,2.688281422661616e-05
+10,"Sub(Sub(Add(Var(Sub(Add(Constant(0.5),Log(Add($vwap,Sub(Constant(-2.0),$open)))),Constant(-2.0)),50),Constant(0.5)),Abs($volume)),Constant(0.01))",0.0,0.0
+11,Ensemble,-0.0069715906865894794,0.04221344366669655
