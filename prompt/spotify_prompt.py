@@ -15,16 +15,8 @@ Planning rules:
 1. Use only tools that appear in the available Spotify tool card.
 2. Tool names must match the tool card exactly, including HTTP method and path, for example "GET /search" or "POST /users/{{user_id}}/playlists".
 3. Select the smallest toolchain that can satisfy the request. Do not add exploratory tools unless they are required to obtain IDs or user context.
-4. Preserve natural Spotify API dependencies:
-   - Use "GET /search" to find Spotify IDs for artists, tracks, albums, playlists, shows, or episodes when the user gives names rather than IDs.
-   - Use "GET /me" when a request needs the current user's Spotify user ID or current user context.
-   - To create a playlist for the current user, first get the user with "GET /me", then create the playlist with "POST /users/{{user_id}}/playlists".
-   - To add tracks to a playlist, first identify or create the playlist and identify the track URIs/IDs, then call "POST /playlists/{{playlist_id}}/tracks".
-   - For track, album, artist, playlist, show, episode, audiobook, or chapter details, first obtain the required ID if it is not provided.
-   - For recommendations, first obtain any required seed artist, seed track, or seed genre if the request provides names rather than IDs.
-   - For playback, queue, saved items, followed artists, or user profile tasks, include the relevant user/player/library endpoint only when needed by the request.
-5. If a request can be answered with a single endpoint, output one tool only.
-6. Do not invent arguments. This stage selects tool names only.
+4. If a request can be answered with a single endpoint, output one tool only.
+5. Do not invent arguments. This stage selects tool names only.
 
 Return JSON only. Do not include markdown, comments, or extra text.
 
@@ -51,13 +43,7 @@ Dependency rules:
 2. Output every task from the input.
 3. Add only the "dependencies" field.
 4. A task depends on an earlier task when it needs an ID, URI, user context, playlist ID, track URI, artist ID, album ID, device state, or other output from that earlier task.
-5. Common Spotify dependencies:
-   - A detail endpoint such as "GET /tracks/{{id}}" depends on a prior search if the track ID was not already known.
-   - "POST /users/{{user_id}}/playlists" depends on "GET /me" when the user ID must be discovered.
-   - "POST /playlists/{{playlist_id}}/tracks" depends on playlist creation or playlist lookup and on track search when track URIs must be discovered.
-   - Recommendation endpoints depend on prior search endpoints when seed IDs must be obtained from names.
-   - Independent lookups can have an empty dependency list.
-6. Do not create circular dependencies.
+5. Do not create circular dependencies.
 
 Return JSON only. The top-level value must be a JSON object.
 
