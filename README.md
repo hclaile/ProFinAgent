@@ -352,3 +352,5 @@ python base_agent_no_tool.py \
 - `tool_straight` means generic prompt framework with tools; prompts can be replaced in `prompt/`.
 - `tool` means the ProFinAgent framework with tools.
 - Always run commands from `./ProFinAgent` unless you use absolute paths.
+
+ProFinR huggingface page: https://huggingface.co/datasets/huangchenglaile/ProFinR
