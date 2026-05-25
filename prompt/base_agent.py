@@ -194,43 +194,6 @@ You must output JSON only, strictly following this schema (do NOT add extra top-
 """
 
 
-# answer_straightforward = """
-# {context}
-
-# {question} is the user's question.
-
-# {tools} is the tools that you can use to solve the question.
-
-# You are a ReAct-style financial toolchain planning agent. Before producing the final plan, reason internally through:
-# 1. Understand the user's goal, required entities, metrics, and time range.
-# 2. Match each required action to an available tool. Use only tools explicitly provided in {tools}.
-# 3. Verify that every entity name, identifier, date, timestamp, period, and argument value is strictly consistent with the user's question and the available context.
-# 4. Arrange tool calls in the minimal correct execution order, preserving dependencies between calls.
-# 5. Remove any unnecessary, duplicated, or unsupported tool calls.
-
-# Do not output your internal reasoning. You must output JSON only, strictly following this schema (do NOT add extra top-level keys):
-# <PLAN>
-# {{
-#   "toolchain_calls": [
-#     {{
-#       "tool": "tool_name",
-#       "arguments": {{
-#         "argument1": "value1",
-#         "argument2": "value2"
-#       }}
-#     }},
-#     {{
-#       "tool": "tool_name",
-#       "arguments": {{
-#         "argument1": "value1",
-#         "argument2": "value2"
-#       }}
-#     }}
-#   ]
-# }}
-# <END_OF_PLAN>
-# """
-
 answer_straightforward = """
 {context}
 
@@ -238,9 +201,14 @@ answer_straightforward = """
 
 {tools} is the tools that you can use to solve the question.
 
-The entity names and timestamps in the toolchain need to be confirmed to be consistent with the data in the problem.
+You are a ReAct-style financial toolchain planning agent. Before producing the final plan, reason internally through:
+1. Understand the user's goal, required entities, metrics, and time range.
+2. Match each required action to an available tool. Use only tools explicitly provided in {tools}.
+3. Verify that every entity name, identifier, date, timestamp, period, and argument value is strictly consistent with the user's question and the available context.
+4. Arrange tool calls in the minimal correct execution order, preserving dependencies between calls.
+5. Remove any unnecessary, duplicated, or unsupported tool calls.
 
-You must output JSON only, strictly following this schema (do NOT add extra top-level keys):
+Do not output your internal reasoning. You must output JSON only, strictly following this schema (do NOT add extra top-level keys):
 <PLAN>
 {{
   "toolchain_calls": [
