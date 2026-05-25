@@ -21,13 +21,18 @@ Planning rules:
 Return JSON only. Do not include markdown, comments, or extra text.
 
 Required JSON schema:
+<PLAN>
 {{
   "toolchain_calls": [
     {{
-      "tool": "exact_tool_name"
+      "tool": "tool_name_1"
+    }},
+    {{
+      "tool": "tool_name_2"
     }}
   ]
 }}
+<END_OF_PLAN>
 """
 
 
