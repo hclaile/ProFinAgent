@@ -1,121 +1,136 @@
 select_tools = """
-You are an expert agent specializing in The Movie Database (TMDB) API toolchain routing. Your task is to analyze the user's query and select the exact sequence of tools needed to fulfill the request from the provided tool card.
+You are an expert RESTBench planner for Spotify Web API tool routing.
+Your task is to select the minimal and correct sequence of Spotify API tools needed to answer or execute the user's request.
 
-User's Question: {question}
+User's Question:
+{question}
 
-{tools} is the tools that you can use to solve the question.
+Available Spotify tools:
+{tools}
 
-{notebook} is the notebook that is most similar to this task, you can refer to the experience in the notebook to avoid potential problems.
+Relevant prior notebook examples, if any:
+{notebook}
 
+Planning rules:
+1. Use only tools that appear in the available Spotify tool card.
+2. Tool names must match the tool card exactly, including HTTP method and path, for example "GET /search" or "POST /users/{{user_id}}/playlists".
+3. Select the smallest toolchain that can satisfy the request. Do not add exploratory tools unless they are required to obtain IDs or user context.
+4. Preserve natural Spotify API dependencies:
+   - Use "GET /search" to find Spotify IDs for artists, tracks, albums, playlists, shows, or episodes when the user gives names rather than IDs.
+   - Use "GET /me" when a request needs the current user's Spotify user ID or current user context.
+   - To create a playlist for the current user, first get the user with "GET /me", then create the playlist with "POST /users/{{user_id}}/playlists".
+   - To add tracks to a playlist, first identify or create the playlist and identify the track URIs/IDs, then call "POST /playlists/{{playlist_id}}/tracks".
+   - For track, album, artist, playlist, show, episode, audiobook, or chapter details, first obtain the required ID if it is not provided.
+   - For recommendations, first obtain any required seed artist, seed track, or seed genre if the request provides names rather than IDs.
+   - For playback, queue, saved items, followed artists, or user profile tasks, include the relevant user/player/library endpoint only when needed by the request.
+5. If a request can be answered with a single endpoint, output one tool only.
+6. Do not invent arguments. This stage selects tool names only.
 
-To ensure absolute accuracy, you must use a Chain-of-Thought approach before generating the final JSON plan. Structure your response strictly following these steps:
+Return JSON only. Do not include markdown, comments, or extra text.
 
-<THOUGHT_PROCESS>
-Step 1: Task Decomposition
-- Break down the user's question into logical, sequential steps. (e.g., "First, I need to find the movie ID for 'Inception'. Second, I need to find the cast list using that ID.")
-
-Step 2: Tool Matching & Dependency Analysis
-- For each step identified in Step 1, search the <TOOL_CARD> to find the exact matching "tool_name".
-- Identify data dependencies: Does the next tool require an ID or parameter that must be fetched by the previous tool? (e.g., `GET /movie/{{movie_id}}/credits` strictly requires the `movie_id` outputted from `GET /search/movie`, POST /users/{{user_id}}/playlists strictly requires the `user_id` outputted from `GET /me`).
-
-Step 3: Toolchain Finalization
-- List the final sequence of "tool_name"s in the exact execution order. Ensure no unnecessary tools are included.
-</THOUGHT_PROCESS>
-
-Based on your thought process, you must output the final toolchain plan. You must output JSON only, strictly following this schema (do NOT add extra top-level keys or any other text inside the PLAN tags):
-<PLAN>
+Required JSON schema:
 {{
   "toolchain_calls": [
     {{
-      "tool": "tool_name_1"
-    }},
-    {{
-      "tool": "tool_name_2"
+      "tool": "exact_tool_name"
     }}
   ]
 }}
-<END_OF_PLAN>"""
+"""
 
 
 Generate_tool_dependencies = """
-You are an expert agent specializing in The Movie Database (TMDB) API toolchain routing. Your task is to analyze the user's query and select the exact sequence of tools needed to fulfill the request from the provided tool card.
+You are an expert Spotify Web API dependency planner.
+Given a selected Spotify toolchain, add logical execution dependencies between the selected tools.
 
-{result} is the tool planning result of the current task.
+Selected toolchain:
+{result}
 
-Analyze the toolchain calls and determine the logical dependencies between tasks.
+Dependency rules:
+1. Preserve every task ID and tool name exactly as provided.
+2. Output every task from the input.
+3. Add only the "dependencies" field.
+4. A task depends on an earlier task when it needs an ID, URI, user context, playlist ID, track URI, artist ID, album ID, device state, or other output from that earlier task.
+5. Common Spotify dependencies:
+   - A detail endpoint such as "GET /tracks/{{id}}" depends on a prior search if the track ID was not already known.
+   - "POST /users/{{user_id}}/playlists" depends on "GET /me" when the user ID must be discovered.
+   - "POST /playlists/{{playlist_id}}/tracks" depends on playlist creation or playlist lookup and on track search when track URIs must be discovered.
+   - Recommendation endpoints depend on prior search endpoints when seed IDs must be obtained from names.
+   - Independent lookups can have an empty dependency list.
+6. Do not create circular dependencies.
 
-IMPORTANT RULES:
-1. You MUST preserve all task IDs, tool names, and arguments exactly as they appear in the input.
-2. You MUST output ALL tasks from the input, with the same IDs, tool names, and arguments.
-3. You ONLY need to add the "dependencies" field to each task based on logical dependencies.
+Return JSON only. The top-level value must be a JSON object.
 
-Dependency Analysis:
-- If a task's arguments reference the output of another task (e.g., file paths, data from previous steps, output from other tools), add that task's id to the dependencies list.
-- If a task needs to wait for another task to complete before it can start, add that task's id to the dependencies list.
-- If tasks are completely independent and can run in parallel, the dependencies list is empty [].
-- A task cannot depend on itself (no circular dependencies).
-
-You need to output the tool dependencies of the current task based on the toolchain calls.
-
-The output format is as follows (must be an exact match, do not add any parameters):
-
-<PLAN>
-[
-  {{
-    "id": 1,
-    "tool": "...",
-    "dependencies": [] 
-  }},
-  {{
-    "id": 2,
-    "tool": "...",
-    "dependencies": [1] 
-  }}
-  ...
-]
-<END_OF_PLAN>
+Required JSON schema:
+{{
+  "tasks": [
+    {{
+      "id": 1,
+      "tool": "exact_tool_name",
+      "dependencies": []
+    }},
+    {{
+      "id": 2,
+      "tool": "exact_tool_name",
+      "dependencies": [1]
+    }}
+  ]
+}}
 """
 
 
 self_reflection = """
+You are an expert evaluator for Spotify Web API tool-routing tasks.
+Review whether the selected Spotify toolchain is appropriate for the user request and reference solution.
 
-You are an expert agent specializing in The Movie Database (TMDB) API toolchain routing. Your task is to analyze the user's query and select the exact sequence of tools needed to fulfill the request from the provided tool card.
+Current task:
+{task}
 
-The current task is: {task}.
+Selected toolchain calls:
+{result}
 
-The toolchain calls are: {result}.
+DAG/dependency results:
+{dag_results}
 
-The dag results are: {dag_results}.
+Reference answer or reference solution:
+{reference_answer}
 
-The Reference answer for this task is: {reference_answer}.
+Evaluate:
+1. Whether the selected tools are valid Spotify Web API tools.
+2. Whether the tool order is sufficient to satisfy required ID, URI, playlist, user, or playback dependencies.
+3. Whether unnecessary tools were selected.
+4. Whether any required tool is missing compared with the reference solution.
+5. What should be improved in future Spotify tool routing for this task type.
 
-You need to output the self-reflection based on the current task, toolchain result, dag results, final answer, and reference answer.
+Return JSON only. Do not include markdown, comments, or extra text.
 
-The output format is as follows (must be an exact match, do not add any parameters):
-
-<PLAN>
+Required JSON schema:
 {{
   "task": "...",
   "dag_results": "...",
   "self_reflection": "..."
 }}
-
-<END_OF_PLAN>
-
 """
 
+
 zero_spotify = """
-You are a zero-shot RESTBench planner for Spotify API tasks.
-Your goal is to output the MINIMAL and CORRECT toolchain for the user request.
+You are a zero-shot RESTBench planner for Spotify Web API tasks.
+Your goal is to output the minimal and correct Spotify API toolchain for the user request.
 
-User's Question: {question}
+User's Question:
+{question}
 
-{tools} is the tool card you can use.
+Available Spotify tool card:
+{tools}
 
-# Hard constraints:
-# 1. Use only tools that appear in the tool card.
-# 2. Tool names must match exactly (case-sensitive), e.g., "GET /search", "GET /tracks/{{id}}".
+Hard constraints:
+1. Use only tools from the Spotify tool card.
+2. Tool names must match exactly, including method and path, for example "GET /search", "GET /tracks/{{id}}", or "POST /playlists/{{playlist_id}}/tracks".
+3. Output tool names only. Do not output arguments.
+4. Use the fewest tools that can complete the task.
+5. Add prerequisite tools only when needed to obtain Spotify IDs, URIs, playlist IDs, current user ID, or playback context.
 
+Return JSON only. Do not include markdown, comments, or extra text.
 
 Output format (must be exact):
 <PLAN>
