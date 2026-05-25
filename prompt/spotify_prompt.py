@@ -53,20 +53,21 @@ Dependency rules:
 Return JSON only. The top-level value must be a JSON object.
 
 Required JSON schema:
-{{
-  "tasks": [
-    {{
-      "id": 1,
-      "tool": "exact_tool_name",
-      "dependencies": []
-    }},
-    {{
-      "id": 2,
-      "tool": "exact_tool_name",
-      "dependencies": [1]
-    }}
-  ]
-}}
+<PLAN>
+[
+  {{
+    "id": 1,
+    "tool": "...",
+    "dependencies": [] 
+  }},
+  {{
+    "id": 2,
+    "tool": "...",
+    "dependencies": [1] 
+  }}
+  ...
+]
+<END_OF_PLAN>
 """
 
 
@@ -96,11 +97,14 @@ Evaluate:
 Return JSON only. Do not include markdown, comments, or extra text.
 
 Required JSON schema:
+<PLAN>
 {{
   "task": "...",
   "dag_results": "...",
   "self_reflection": "..."
 }}
+
+<END_OF_PLAN>
 """
 
 
