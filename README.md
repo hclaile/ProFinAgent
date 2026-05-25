@@ -2,6 +2,8 @@
 
 ProFinAgent is a financial-agent benchmark and tool-augmented reasoning framework. It supports two agent backends, multiple prompt/tool testing modes, and an inline MCP-style tool server for executing financial data, analysis, training, forecasting, search, and reporting tools.
 
+ProFinR huggingface page: https://huggingface.co/datasets/huangchenglaile/ProFinR
+
 This README focuses on how to run the project and how to choose the correct agent and test script.
 
 ## Project Layout
@@ -352,5 +354,3 @@ python base_agent_no_tool.py \
 - `tool_straight` means generic prompt framework with tools; prompts can be replaced in `prompt/`.
 - `tool` means the ProFinAgent framework with tools.
 - Always run commands from `./ProFinAgent` unless you use absolute paths.
-
-ProFinR huggingface page: https://huggingface.co/datasets/huangchenglaile/ProFinR
