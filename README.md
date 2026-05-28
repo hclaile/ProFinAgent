@@ -1,5 +1,3 @@
-Official implementation for "Towards Professional-Grade Financial Agents: Benchmarking, Tooling, and Structured Reasoning (ICML'2026)"
-
 # ProFinAgent
 
 ProFinAgent is a financial-agent benchmark and tool-augmented reasoning framework. It supports two agent backends, multiple prompt/tool testing modes, and an inline MCP-style tool server for executing financial data, analysis, training, forecasting, search, and reporting tools.
